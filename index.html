@@ -95,11 +95,6 @@
     .browser-footer{ height:56px; display:flex; align-items:center; gap:12px; padding:8px 16px; background:#fbfbfb; border-top:1px solid #eee }
     .close-btn{ margin-left:auto; background:transparent;border:1px solid #ddd;padding:6px 10px;border-radius:8px;cursor:pointer }
 
-    /* SunnyShape site (embedded content area) */
-    #sunnysite{ display:none; padding:18px; overflow:auto }
-    #sunnysite .site-card{ background:white;padding:16px;border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.06) }
-
-    /* small responsive */
     @media (max-width:900px){
       .browser-overlay{ inset:4vh 3vw }
       .sidebar{ display:none }
@@ -134,7 +129,7 @@
         <div class="result-card" data-site="sunny">
           <h3>晴朗轻体馆 SunnyShape</h3>
           <p>在晴朗市，做最轻盈的自己 — 科学的减脂、趣味的社区与本地健身推荐。</p>
-          <p style="margin-top:8px"><a href="#sunnysite" class="enter-site" style="color:var(--green);font-weight:700;">访问网站 →</a></p>
+          <p style="margin-top:8px"><a href="website.html" class="enter-site" style="color:var(--green);font-weight:700;">访问网站 →</a></p>
         </div>
         <div class="result-card">
           <h3>减肥论坛讨论串（示例）</h3>
@@ -146,7 +141,7 @@
         <div class="bookmarks">
           <h4 style="margin:0 0 8px 0">收藏记录</h4>
           <div class="bookmark-item">
-            <a href="#sunnysite" class="bookmark-link">晴朗轻体馆 SunnyShape</a>
+            <a href="website.html" class="bookmark-link">晴朗轻体馆 SunnyShape</a>
             <span style="font-size:0.85rem;color:#888">收藏于 昨晚</span>
           </div>
           <div class="bookmark-item">
@@ -164,69 +159,29 @@
     </div>
   </div>
 
-  <!-- 站内展示：晴朗轻体馆（被链接到的内容） -->
-  <div id="sunnysite" style="position:fixed; right:4vw; bottom:4vh; width:560px; height:72vh; background:linear-gradient(180deg,#fff,#f7fbff); border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.28); padding:14px; overflow:auto; display:none; z-index:80">
-    <div class="site-card">
-      <h2 style="margin-top:0;color:var(--blue)">☀️ 晴朗轻体馆 SunnyShape</h2>
-      <p><strong>口号：</strong>在晴朗市，做最轻盈的自己！</p>
-      <hr>
-      <h3 style="color:var(--green)">科学专栏</h3>
-      <ul>
-        <li>脂肪，其实是个“储能专家”</li>
-        <li>节食越狠，反弹越快</li>
-        <li>体重秤不会告诉你的真相</li>
-        <li>睡好7小时比运动30分钟更重要</li>
-        <li>碳水不是敌人</li>
-        <li>别和别人比体质</li>
-      </ul>
-      <h3 style="color:var(--coral)">本地健身推荐</h3>
-      <ol>
-        <li>晴光公园跑道</li>
-        <li>FitOne 健身中心</li>
-        <li>晴朗攀岩馆</li>
-        <li>蓝天游泳馆</li>
-      </ol>
-      <p style="text-align:center;margin-top:12px"><a href="#" onclick="closeSunny()" style="background:var(--blue);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;">关闭站点预览</a></p>
-    </div>
-  </div>
-
   <script>
-    const openBtn = document.getElementById(' openBrowser') || document.getElementById('openBrowser');
+    const openBtn = document.getElementById('openBrowser');
     const browser = document.getElementById('browser');
     const close = document.getElementById('closeBrowser');
     const closeBottom = document.getElementById('closeBottom');
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('searchInput');
-    const sunny = document.getElementById('sunnysite');
 
     openBtn.addEventListener('click', ()=>{
       browser.style.display = 'flex';
-      // autofocus search
       setTimeout(()=>searchInput.focus(),120);
     });
     close.addEventListener('click', ()=> browser.style.display = 'none');
     closeBottom.addEventListener('click', ()=> browser.style.display = 'none');
 
     searchBtn.addEventListener('click', ()=>{
-      // simple behavior: if user types 晴朗, open sunny preview
       const q = searchInput.value.trim();
       if(q.includes('晴朗') || q.includes('轻体') || q.includes('Sunny')){
-        sunny.style.display = 'block';
+        window.location.href = 'website.html';
       } else {
         alert('搜索示例：输入 “晴朗轻体馆” 或 点击收藏中的 “晴朗轻体馆 SunnyShape”。');
       }
     });
-
-    // links that anchor to sunnysite
-    document.querySelectorAll('.enter-site, .bookmark-link').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        sunny.style.display = 'block';
-        browser.style.display = 'flex';
-      });
-    });
-
-    function closeSunny(){ sunny.style.display='none'; }
   </script>
 
 </body>
