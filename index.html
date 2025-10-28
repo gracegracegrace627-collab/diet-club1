@@ -1,226 +1,233 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>减肥论坛 · 隐藏版（论坛解谜版）</title>
-<style>
-:root {
-  --bg: #f4f4f4;
-  --text: #222;
-  --card: #fff;
-  --border: #ccc;
-}
-body.dark {
-  --bg: #1b1b1b;
-  --text: #e6e6e6;
-  --card: #2b2b2b;
-  --border: #555;
-}
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Microsoft YaHei", sans-serif;
-  transition: background 0.4s, color 0.4s;
-  padding: 20px;
-}
-#container {
-  width: 800px;
-  margin: auto;
-}
-header {
-  margin-bottom: 20px;
-  text-align: center;
-}
-#themeBtn {
-  margin-left: 10px;
-}
-forum-section, .forum-section {
-  /* placeholder */
-}
-.post-list, .post-view {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-.post-item {
-  padding: 10px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-}
-.post-item:last-child { border-bottom: none; }
-.post-item:hover { background: rgba(0,0,0,0.03); }
-.post-title { font-size: 1.2em; margin: 0; }
-.post-meta { font-size: 0.9em; color: #666; }
-.reply-section {
-  margin-top: 20px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-}
-.reply-item {
-  padding: 8px;
-  border-bottom: 1px solid var(--border);
-}
-.reply-item:last-child { border-bottom: none; }
-#newReply {
-  margin-top: 15px;
-}
-#notes { background: var(--card); border:1px solid var(--border); border-radius:8px; padding:10px; max-height:150px; overflow-y:auto; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小A的桌面 - 晴朗轻体馆入口</title>
+  <style>
+    :root{
+      --blue:#5BC0EB;
+      --yellow:#FDE74C;
+      --green:#9BC53D;
+      --coral:#FA7921;
+    }
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(120deg, rgba(20,60,120,0.35), rgba(255,255,255,0.05)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+    }
 
-</style>
+    .note {
+      background: #FFF9C4;
+      width: 520px;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      transform: rotate(-1.5deg);
+      position: relative;
+    }
+
+    .note::before {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 22px;
+      background: #F06292;
+      border-radius: 6px;
+    }
+
+    h2 { text-align:center; color:#333; margin:0 0 8px 0 }
+    p { font-size: 0.98rem; line-height:1.6; color:#333 }
+
+    button {
+      display: block;
+      margin: 1.2rem auto 0;
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.4rem;
+      border-radius: 26px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+    button:hover{ transform: translateY(-3px); background: var(--coral)}
+
+    /* fake browser overlay */
+    .browser-overlay{
+      position: fixed;
+      inset: 6vh 8vw;
+      background: linear-gradient(to bottom right,#ffffffee,#f7fbff);
+      border-radius: 12px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .browser-header{
+      height: 64px;
+      display:flex;align-items:center;padding:0 16px;gap:12px;background:linear-gradient(90deg,var(--yellow),#fff);
+    }
+    .gugu-logo{ font-weight:700; color:var(--blue); font-size:1.4rem }
+    .searchbar{ flex:1; display:flex; align-items:center; gap:8px }
+    .searchbar input{ flex:1; padding:10px 12px;border-radius:8px;border:1px solid #ddd;font-size:0.95rem }
+    .searchbar button{ padding:8px 12px;border-radius:8px;border:none;background:var(--blue);color:white;cursor:pointer }
+    .browser-body{ flex:1; display:flex; padding:18px; gap:18px; overflow:auto }
+
+    .results{ flex:2; }
+    .result-card{ background:white;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-bottom:12px }
+    .result-card h3{ margin:0 0 6px 0; color:var(--blue) }
+    .result-card p{ margin:0; color:#666 }
+
+    .sidebar{ width:260px }
+    .bookmarks{ background:#fff9ea;padding:12px;border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.04) }
+    .bookmark-item{ padding:8px;border-radius:8px; display:flex;justify-content:space-between;align-items:center; margin-bottom:8px; background:white }
+    .bookmark-item a{ text-decoration:none; color:var(--blue); font-weight:600 }
+
+    .browser-footer{ height:56px; display:flex; align-items:center; gap:12px; padding:8px 16px; background:#fbfbfb; border-top:1px solid #eee }
+    .close-btn{ margin-left:auto; background:transparent;border:1px solid #ddd;padding:6px 10px;border-radius:8px;cursor:pointer }
+
+    /* SunnyShape site (embedded content area) */
+    #sunnysite{ display:none; padding:18px; overflow:auto }
+    #sunnysite .site-card{ background:white;padding:16px;border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.06) }
+
+    /* small responsive */
+    @media (max-width:900px){
+      .browser-overlay{ inset:4vh 3vw }
+      .sidebar{ display:none }
+    }
+  </style>
 </head>
 <body>
-<div id="container">
-  <header>
-    <h1>🏃‍♀️ 减肥论坛 · 隐藏版</h1>
-    <button id="themeBtn">切换主题</button>
-  </header>
 
-  <div id="notesSection">
-    <h3>📝 玩家笔记</h3>
-    <div id="notes">(暂无记录)</div>
+  <div class="note">
+    <h2>📒 小A的便利贴</h2>
+    <p>你叫小A，是一个喜欢混迹论坛，喜欢关注身体、保持身材、特别喜欢减肥的人。<br><br>
+    昨晚你发现一个有趣的减肥网站，看得津津有味，之后你便在网页中把网站收藏下来。<br><br>
+    想到今天休息，刚好可以好好刷一下贴子。唉？昨天注册的账号是多少来着？<br>
+    是 <b>1123456</b> 还是 <b>1223456</b>？<br><br>
+    算了，都试一下吧——</p>
+    <button id="openBrowser">💻 点击进入浏览器</button>
   </div>
 
-  <div id="forumInterface">
-    <div id="postList" class="post-list"></div>
-    <div id="postView" class="post-view hidden"></div>
-  </div>
-</div>
-
-<script>
-// ========== 数据结构 ==========
-const posts = [
-  {
-    id: 1,
-    title: "【隐藏子论坛】分割与献祭——极致减肥法",
-    author: "资深帖友A",
-    content: "内容已隐藏，输入密码查看。",
-    replies: []
-  },
-  {
-    id: 2,
-    title: "季度聚会 · 新人报告贴",
-    author: "资深帖友B",
-    content: "每次聚会新人的情况如何……← 留待解锁",
-    replies: []
-  },
-  {
-    id: 3,
-    title: "普通贴：我的卡路里控制经验",
-    author: "普通会员C",
-    content: "大家好，这是我最近一周的热量记录…",
-    replies: [
-      {author:"会员D", text:"不错，坚持下去！"},
-      {author:"会员E", text:"请问怎么控制晚餐？"}
-    ]
-  }
-];
-
-let notes = [];
-function updateNotes(){
-  const nDiv = document.getElementById("notes");
-  if(notes.length === 0) {
-    nDiv.innerHTML = "(暂无记录)";
-  } else {
-    nDiv.innerHTML = notes.map(w=>`📌 ${w}`).join("<br>");
-  }
-}
-
-function addNote(kw){
-  if(!notes.includes(kw)){
-    notes.push(kw);
-    updateNotes();
-  }
-}
-
-// ========== 渲染帖子列表 ==========
-function renderPostList(){
-  const listDiv = document.getElementById("postList");
-  listDiv.innerHTML = "";
-  posts.forEach(p=>{
-    const div = document.createElement("div");
-    div.className = "post-item";
-    div.innerHTML = `<p class="post-title">${p.title}</p><p class="post-meta">作者：${p.author}</p>`;
-    div.onclick = ()=>viewPost(p.id);
-    listDiv.appendChild(div);
-  });
-}
-
-// ========== 查看单个帖子 ==========
-function viewPost(id){
-  const post = posts.find(p=>p.id===id);
-  const viewDiv = document.getElementById("postView");
-  viewDiv.classList.remove("hidden");
-  viewDiv.innerHTML = `
-    <h2>${post.title}</h2>
-    <p>作者：${post.author}</p>
-    <div>${post.content}</div>
-    <div class="reply-section">
-      <h4>回复：</h4>
-      <div id="replies">${post.replies.map(r=>`<div class="reply-item"><strong>${r.author}：</strong>${r.text}</div>`).join("")}</div>
-      <textarea id="replyText" rows="2" placeholder="输入回复..."></textarea><br>
-      <button onclick="submitReply(${post.id})">发表回复</button>
-      <button onclick="backToList()">返回列表</button>
+  <!-- 假浏览器 -->
+  <div class="browser-overlay" id="browser">
+    <div class="browser-header">
+      <div class="gugu-logo">gugu</div>
+      <div class="searchbar">
+        <input id="searchInput" placeholder="在 gugu 搜索 或 输入网址（示例：晴朗轻体馆）">
+        <button id="searchBtn">搜索</button>
+      </div>
+      <button class="close-btn" id="closeBrowser">关闭</button>
     </div>
-  `;
-}
 
-// ========== 提交回复 ==========
-function submitReply(postId){
-  const txt = document.getElementById("replyText").value.trim();
-  if(txt==="") return alert("请输入内容");
-  const post = posts.find(p=>p.id===postId);
-  post.replies.push({author:"你", text:txt});
-  // 加入笔记：记录关键词“回复”
-  addNote("回复帖："+post.title);
-  viewPost(postId);
-}
+    <div class="browser-body">
+      <div class="results" id="results">
+        <div class="result-card" data-site="sunny">
+          <h3>晴朗轻体馆 SunnyShape</h3>
+          <p>在晴朗市，做最轻盈的自己 — 科学的减脂、趣味的社区与本地健身推荐。</p>
+          <p style="margin-top:8px"><a href="#sunnysite" class="enter-site" style="color:var(--green);font-weight:700;">访问网站 →</a></p>
+        </div>
+        <div class="result-card">
+          <h3>减肥论坛讨论串（示例）</h3>
+          <p>“今天打卡完成 HIIT 30 分钟，燃烧了 320 大卡！”</p>
+        </div>
+      </div>
 
-// ========== 返回列表 ==========
-function backToList(){
-  document.getElementById("postView").classList.add("hidden");
-}
+      <aside class="sidebar">
+        <div class="bookmarks">
+          <h4 style="margin:0 0 8px 0">收藏记录</h4>
+          <div class="bookmark-item">
+            <a href="#sunnysite" class="bookmark-link">晴朗轻体馆 SunnyShape</a>
+            <span style="font-size:0.85rem;color:#888">收藏于 昨晚</span>
+          </div>
+          <div class="bookmark-item">
+            <a href="#" onclick="alert('此为示例书签')">晨跑路线图</a>
+            <span style="font-size:0.85rem;color:#888">收藏于 2025/10/20</span>
+          </div>
+        </div>
+      </aside>
+    </div>
 
-// ========== 密码解锁机制 ==========
-function unlockPost(id){
-  const post = posts.find(p=>p.id===id);
-  const pwd = prompt("请输入密码查看该帖：");
-  if(pwd==="cut2025"){
-    post.content = "【解锁内容】每季度聚会一次，地点在郊区牧场。新人往往在此获得真正的“减重启示”。";
-    updateNotes();
-    renderPostList();
-    viewPost(id);
-  } else {
-    alert("密码错误！");
-  }
-}
+    <div class="browser-footer">
+      <div style="font-size:0.95rem;color:#666">已登录：小A（1123456）</div>
+      <div style="font-size:0.95rem;color:#666">网络：晴朗市 WI-FI</div>
+      <button class="close-btn" id="closeBottom">关闭</button>
+    </div>
+  </div>
 
-// ========== 初始化 ==========
-renderPostList();
-updateNotes();
+  <!-- 站内展示：晴朗轻体馆（被链接到的内容） -->
+  <div id="sunnysite" style="position:fixed; right:4vw; bottom:4vh; width:560px; height:72vh; background:linear-gradient(180deg,#fff,#f7fbff); border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.28); padding:14px; overflow:auto; display:none; z-index:80">
+    <div class="site-card">
+      <h2 style="margin-top:0;color:var(--blue)">☀️ 晴朗轻体馆 SunnyShape</h2>
+      <p><strong>口号：</strong>在晴朗市，做最轻盈的自己！</p>
+      <hr>
+      <h3 style="color:var(--green)">科学专栏</h3>
+      <ul>
+        <li>脂肪，其实是个“储能专家”</li>
+        <li>节食越狠，反弹越快</li>
+        <li>体重秤不会告诉你的真相</li>
+        <li>睡好7小时比运动30分钟更重要</li>
+        <li>碳水不是敌人</li>
+        <li>别和别人比体质</li>
+      </ul>
+      <h3 style="color:var(--coral)">本地健身推荐</h3>
+      <ol>
+        <li>晴光公园跑道</li>
+        <li>FitOne 健身中心</li>
+        <li>晴朗攀岩馆</li>
+        <li>蓝天游泳馆</li>
+      </ol>
+      <p style="text-align:center;margin-top:12px"><a href="#" onclick="closeSunny()" style="background:var(--blue);color:white;padding:8px 12px;border-radius:8px;text-decoration:none;">关闭站点预览</a></p>
+    </div>
+  </div>
 
-// 增加交互：点击隐藏帖时先密码验证
-document.querySelectorAll(".post-item").forEach(div=>{
-  // we can't bind easily here; instead: override viewPost to check
-});
+  <script>
+    const openBtn = document.getElementById(' openBrowser') || document.getElementById('openBrowser');
+    const browser = document.getElementById('browser');
+    const close = document.getElementById('closeBrowser');
+    const closeBottom = document.getElementById('closeBottom');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+    const sunny = document.getElementById('sunnysite');
 
-// 改进：在 viewPost 判断如果内容为“内容已隐藏”，提示解锁
-const originalViewPost = viewPost;
-viewPost = function(id){
-  const post = posts.find(p=>p.id===id);
-  if(post.content==="内容已隐藏，输入密码查看。"){
-    unlockPost(id);
-  } else {
-    originalViewPost(id);
-  }
-};
+    openBtn.addEventListener('click', ()=>{
+      browser.style.display = 'flex';
+      // autofocus search
+      setTimeout(()=>searchInput.focus(),120);
+    });
+    close.addEventListener('click', ()=> browser.style.display = 'none');
+    closeBottom.addEventListener('click', ()=> browser.style.display = 'none');
 
-// 主题切换
-document.getElementById("themeBtn").onclick = ()=>{
-  document.body.classList.toggle("dark");
-};
+    searchBtn.addEventListener('click', ()=>{
+      // simple behavior: if user types 晴朗, open sunny preview
+      const q = searchInput.value.trim();
+      if(q.includes('晴朗') || q.includes('轻体') || q.includes('Sunny')){
+        sunny.style.display = 'block';
+      } else {
+        alert('搜索示例：输入 “晴朗轻体馆” 或 点击收藏中的 “晴朗轻体馆 SunnyShape”。');
+      }
+    });
 
-</script>
+    // links that anchor to sunnysite
+    document.querySelectorAll('.enter-site, .bookmark-link').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        sunny.style.display = 'block';
+        browser.style.display = 'flex';
+      });
+    });
+
+    function closeSunny(){ sunny.style.display='none'; }
+  </script>
+
 </body>
 </html>
