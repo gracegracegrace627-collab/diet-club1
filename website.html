@@ -14,21 +14,26 @@
     header {
       background: #5BC0EB;
       color: white;
+      padding: 1rem 2rem;
       text-align: center;
       position: relative;
     }
-    header img {
-      width: 100%;
-      max-height: 300px;
-      object-fit: cover;
-      display: block;
-    }
-    header .title {
+    .login-btn {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      top: 1rem;
+      right: 1.5rem;
+      background: #FA7921;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.3s;
+    }
+    .login-btn:hover {
+      background: #FDE74C;
+      color: #333;
     }
     nav {
       display: flex;
@@ -80,16 +85,62 @@
       border-radius: 10px;
       padding: 1.5rem;
     }
+
+    /* 登录弹窗 */
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    .login-box {
+      background: #fff;
+      border-radius: 15px;
+      padding: 2rem;
+      width: 300px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: pop 0.3s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .login-box h3 { color: #5BC0EB; margin-bottom: 1rem; }
+    .login-box input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 0.6rem;
+      background: #5BC0EB;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .login-box button:hover {
+      background: #FA7921;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <img src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74?auto=format&fit=crop&w=1200&q=80" alt="健身主题图片">
-    <div class="title">
-      <h1>☀️ 晴朗轻体馆 SunnyShape</h1>
-      <p>在晴朗市，做最轻盈的自己！</p>
-    </div>
+    <h1>☀️ 晴朗轻体馆 SunnyShape</h1>
+    <p>在晴朗市，做最轻盈的自己！</p>
+    <button class="login-btn" id="loginBtn">登录</button>
   </header>
 
   <nav>
@@ -157,6 +208,36 @@
   <footer>
     <p>© 2025 晴朗轻体馆 SunnyShape | 虚构网站示例</p>
   </footer>
+
+  <!-- 登录弹窗 -->
+  <div class="login-modal" id="loginModal">
+    <div class="login-box">
+      <h3>🔐 登录 SunnyShape</h3>
+      <input type="text" id="username" placeholder="请输入账户">
+      <input type="password" id="password" placeholder="请输入密码">
+      <button id="submitLogin">登录</button>
+    </div>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const modal = document.getElementById('loginModal');
+
+    loginBtn.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    document.getElementById('submitLogin').addEventListener('click', () => {
+      alert('登录成功！（示例功能）');
+      modal.style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
