@@ -3,186 +3,197 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>小A的桌面 - 晴朗轻体馆入口</title>
+  <title>晴朗轻体馆 SunnyShape 官方网站</title>
   <style>
-    :root{
-      --blue:#5BC0EB;
-      --yellow:#FDE74C;
-      --green:#9BC53D;
-      --coral:#FA7921;
-    }
     body {
       margin: 0;
-      height: 100vh;
-      background: linear-gradient(120deg, rgba(20,60,120,0.35), rgba(255,255,255,0.05)), url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+      font-family: "Noto Sans SC", "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom right, #E8F9FD, #FFFBE7);
+      color: #333;
     }
 
-    .note {
-      background: #FFF9C4;
-      width: 520px;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-      transform: rotate(-1.5deg);
-      position: relative;
-    }
-
-    .note::before {
-      content: '';
-      position: absolute;
-      top: -16px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 64px;
-      height: 22px;
-      background: #F06292;
-      border-radius: 6px;
-    }
-
-    h2 { text-align:center; color:#333; margin:0 0 8px 0 }
-    p { font-size: 0.98rem; line-height:1.6; color:#333 }
-
-    button {
-      display: block;
-      margin: 1.2rem auto 0;
-      background: var(--blue);
+    header {
+      background: #5BC0EB;
       color: white;
-      border: none;
-      padding: 0.7rem 1.4rem;
-      border-radius: 26px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    button:hover{ transform: translateY(-3px); background: var(--coral)}
 
-    /* fake browser overlay */
-    .browser-overlay{
-      position: fixed;
-      inset: 6vh 8vw;
-      background: linear-gradient(to bottom right,#ffffffee,#f7fbff);
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #FDE74C;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: url('https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=1200&q=80') center/cover;
+      color: white;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    h3 {
+      color: #5BC0EB;
+      border-left: 6px solid #FA7921;
+      padding-left: 10px;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 25px;
+      line-height: 1.7;
+      transition: transform 0.3s;
     }
-    .browser-header{
-      height: 64px;
-      display:flex;align-items:center;padding:0 16px;gap:12px;background:linear-gradient(90deg,var(--yellow),#fff);
+
+    .card:hover {
+      transform: scale(1.02);
     }
-    .gugu-logo{ font-weight:700; color:var(--blue); font-size:1.4rem }
-    .searchbar{ flex:1; display:flex; align-items:center; gap:8px }
-    .searchbar input{ flex:1; padding:10px 12px;border-radius:8px;border:1px solid #ddd;font-size:0.95rem }
-    .searchbar button{ padding:8px 12px;border-radius:8px;border:none;background:var(--blue);color:white;cursor:pointer }
-    .browser-body{ flex:1; display:flex; padding:18px; gap:18px; overflow:auto }
 
-    .results{ flex:2; }
-    .result-card{ background:white;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-bottom:12px }
-    .result-card h3{ margin:0 0 6px 0; color:var(--blue) }
-    .result-card p{ margin:0; color:#666 }
-
-    .sidebar{ width:260px }
-    .bookmarks{ background:#fff9ea;padding:12px;border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.04) }
-    .bookmark-item{ padding:8px;border-radius:8px; display:flex;justify-content:space-between;align-items:center; margin-bottom:8px; background:white }
-    .bookmark-item a{ text-decoration:none; color:var(--blue); font-weight:600 }
-
-    .browser-footer{ height:56px; display:flex; align-items:center; gap:12px; padding:8px 16px; background:#fbfbfb; border-top:1px solid #eee }
-    .close-btn{ margin-left:auto; background:transparent;border:1px solid #ddd;padding:6px 10px;border-radius:8px;cursor:pointer }
-
-    @media (max-width:900px){
-      .browser-overlay{ inset:4vh 3vw }
-      .sidebar{ display:none }
+    footer {
+      background: #5BC0EB;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 40px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <div class="note">
-    <h2>📒 小A的便利贴</h2>
-    <p>你叫小A，是一个喜欢混迹论坛，喜欢关注身体、保持身材、特别喜欢减肥的人。<br><br>
-    昨晚你发现一个有趣的减肥网站，看得津津有味，之后你便在网页中把网站收藏下来。<br><br>
-    想到今天休息，刚好可以好好刷一下贴子。唉？昨天注册的账号是多少来着？<br>
-    是 <b>1123456</b> 还是 <b>1223456</b>？<br><br>
-    算了，都试一下吧——</p>
-    <button id="openBrowser">💻 点击进入浏览器</button>
+  <header>
+    <h1>☀️ 晴朗轻体馆 SunnyShape</h1>
+    <nav>
+      <a href="#home">首页</a>
+      <a href="#course">健身课程</a>
+      <a href="#nutrition">营养指导</a>
+      <a href="#community">社区活动</a>
+      <a href="#about">关于我们</a>
+    </nav>
+  </header>
+
+  <div class="hero" id="home">
+    <h2>在晴朗的日光下，成为最轻盈的自己</h2>
+    <p>身体的力量来自心灵的平静</p>
   </div>
 
-  <!-- 假浏览器 -->
-  <div class="browser-overlay" id="browser">
-    <div class="browser-header">
-      <div class="gugu-logo">gugu</div>
-      <div class="searchbar">
-        <input id="searchInput" placeholder="在 gugu 搜索 或 输入网址（示例：晴朗轻体馆）">
-        <button id="searchBtn">搜索</button>
-      </div>
-      <button class="close-btn" id="closeBrowser">关闭</button>
+  <section id="course">
+    <h3>🏋️ 健身课程</h3>
+
+    <div class="card">
+      <strong>私教定制训练</strong><br>
+      根据身体数据制定训练计划，提升肌肉耐力与心肺功能。
     </div>
 
-    <div class="browser-body">
-      <div class="results" id="results">
-        <div class="result-card" data-site="sunny">
-          <h3>晴朗轻体馆 SunnyShape</h3>
-          <p>在晴朗市，做最轻盈的自己 — 科学的减脂、趣味的社区与本地健身推荐。</p>
-          <p style="margin-top:8px"><a href="website.html" class="enter-site" style="color:var(--green);font-weight:700;">访问网站 →</a></p>
-        </div>
-        <div class="result-card">
-          <h3>减肥论坛讨论串（示例）</h3>
-          <p>“今天打卡完成 HIIT 30 分钟，燃烧了 320 大卡！”</p>
-        </div>
-      </div>
-
-      <aside class="sidebar">
-        <div class="bookmarks">
-          <h4 style="margin:0 0 8px 0">收藏记录</h4>
-          <div class="bookmark-item">
-            <a href="website.html" class="bookmark-link">晴朗轻体馆 SunnyShape</a>
-            <span style="font-size:0.85rem;color:#888">收藏于 昨晚</span>
-          </div>
-          <div class="bookmark-item">
-            <a href="#" onclick="alert('此为示例书签')">晨跑路线图</a>
-            <span style="font-size:0.85rem;color:#888">收藏于 2025/10/20</span>
-          </div>
-        </div>
-      </aside>
+    <div class="card">
+      <strong>团体课程</strong><br>
+      在轻快音乐中燃烧卡路里，与志同道合的朋友一起挥洒汗水。
     </div>
 
-    <div class="browser-footer">
-      <div style="font-size:0.95rem;color:#666">已登录：小A（1123456）</div>
-      <div style="font-size:0.95rem;color:#666">网络：晴朗市 WI-FI</div>
-      <button class="close-btn" id="closeBottom">关闭</button>
+    <div class="card">
+      <strong>静心冥想课</strong><br>
+      调整呼吸，平衡身心。  
+      <em>（会员限定课程 · 每周五夜间场开放）</em>
     </div>
-  </div>
+  </section>
 
-  <script>
-    const openBtn = document.getElementById('openBrowser');
-    const browser = document.getElementById('browser');
-    const close = document.getElementById('closeBrowser');
-    const closeBottom = document.getElementById('closeBottom');
-    const searchBtn = document.getElementById('searchBtn');
-    const searchInput = document.getElementById('searchInput');
+  <section id="nutrition">
+    <h3>🥗 营养与轻食指导</h3>
 
-    openBtn.addEventListener('click', ()=>{
-      browser.style.display = 'flex';
-      setTimeout(()=>searchInput.focus(),120);
-    });
-    close.addEventListener('click', ()=> browser.style.display = 'none');
-    closeBottom.addEventListener('click', ()=> browser.style.display = 'none');
+    <div class="card">
+      <strong>轻断食方案</strong><br>
+      提供科学断食计划，让代谢自然调整，帮助身心净化。
+    </div>
 
-    searchBtn.addEventListener('click', ()=>{
-      const q = searchInput.value.trim();
-      if(q.includes('晴朗') || q.includes('轻体') || q.includes('Sunny')){
-        window.location.href = 'website.html';
-      } else {
-        alert('搜索示例：输入 “晴朗轻体馆” 或 点击收藏中的 “晴朗轻体馆 SunnyShape”。');
-      }
-    });
-  </script>
+    <div class="card">
+      <strong>个性化餐单</strong><br>
+      由专业营养师根据会员数据定制每日菜单，保持能量平衡。
+    </div>
+
+    <div class="card">
+      <strong>净化食疗计划</strong><br>
+      特别为高强度训练会员提供的「身体净化周期指导」。  
+      <em>（部分内容仅内部会员可见）</em>
+    </div>
+  </section>
+
+  <section id="community">
+    <h3>💬 社区活动</h3>
+
+    <div class="card">
+      <strong>晴光聚会</strong><br>
+      每月一次的轻食分享会，邀请会员共同回顾训练成果。  
+      <em>（地点及时间仅限会员内部邮件通知）</em>
+    </div>
+
+    <div class="card">
+      <strong>净化营计划</strong><br>
+      以冥想与高原训练结合的闭营活动，旨在“重新遇见自己”。  
+      <em>（上次活动报名火爆 · 仅限邀请）</em>
+    </div>
+
+    <div class="card">
+      <strong>身心觉醒训练营</strong><br>
+      高级会员活动，由资深导师带领，探索身与灵的合一。  
+      <em>（须提交健康评估表 · 名额有限）</em>
+    </div>
+  </section>
+
+  <section id="about">
+    <h3>☀️ 关于我们</h3>
+    <div class="card">
+      晴朗轻体馆由一群热爱健康生活的人创立。  
+      我们相信「轻盈」不仅是身体的状态，更是灵魂的平衡。  
+      <br><br>
+      📍 地址：晴朗市 湖畔路 88 号  
+      📞 联系电话：暂无公开联系方式  
+      <br><br>
+      <em>加入我们，让身体与精神一同觉醒。</em>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 晴朗轻体馆 SunnyShape | 虚构网站示例
+  </footer>
 
 </body>
 </html>
