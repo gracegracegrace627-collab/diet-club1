@@ -3,179 +3,238 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>内部论坛 Internal Forum</title>
+<title>SunnyShape 内部邮箱系统</title>
 <style>
   body {
     margin: 0;
     font-family: "Noto Sans SC", "Segoe UI", sans-serif;
-    background-color: #0a0a0a;
+    background-color: #0b0b0b;
     color: #eaeaea;
-    line-height: 1.7;
-    transition: background 0.3s ease;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    transition: background 0.3s, color 0.3s;
   }
 
-  header {
+  /* 左侧导航 */
+  .sidebar {
+    width: 250px;
     background: #111;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .logo {
     color: #FA7921;
-    padding: 1rem 2rem;
-    text-align: center;
-    letter-spacing: 2px;
-    font-size: 20px;
-    border-bottom: 2px solid #333;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 30px;
-    background: #121212;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(250,121,33,0.1);
-  }
-
-  h2 {
-    color: #5BC0EB;
-    border-left: 5px solid #FA7921;
-    padding-left: 10px;
     font-size: 18px;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
   }
 
-  .post {
-    background: #1b1b1b;
-    border: 1px solid #333;
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu li {
+    padding: 10px 15px;
     border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0;
-  }
-
-  .post-title {
-    color: #FA7921;
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 6px;
-  }
-
-  .meta {
-    color: #777;
-    font-size: 13px;
     margin-bottom: 10px;
+    cursor: pointer;
+    color: #ccc;
+    transition: 0.3s;
   }
 
+  .menu li:hover, .menu .active {
+    background: #FA7921;
+    color: #fff;
+  }
+
+  .email-list {
+    margin-top: 30px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .email-item {
+    padding: 10px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+  }
+
+  .email-item:hover {
+    background: #1a1a1a;
+  }
+
+  .email-item .title {
+    color: #5BC0EB;
+    font-weight: bold;
+  }
+
+  .email-item .meta {
+    color: #888;
+    font-size: 12px;
+  }
+
+  /* 右侧阅读区 */
   .content {
-    font-size: 14px;
+    flex: 1;
+    background: #121212;
+    padding: 25px 35px;
+    overflow-y: auto;
+  }
+
+  .header {
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .subject {
+    color: #FA7921;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .fromto {
+    color: #999;
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  .mailbody {
     color: #ddd;
+    font-size: 14px;
+    line-height: 1.7;
     white-space: pre-line;
   }
 
   .warning {
     color: #ff5555;
-    font-style: italic;
-    margin-top: 15px;
+    margin-top: 20px;
   }
 
   footer {
-    text-align: center;
-    color: #666;
-    font-size: 13px;
-    margin: 40px 0 20px;
+    position: absolute;
+    bottom: 5px;
+    right: 15px;
+    color: #777;
+    font-size: 12px;
   }
 
-  .blink {
-    color: #ff5555;
-    animation: blink 1.2s infinite;
-  }
-
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
-
-  .divider {
-    border-top: 1px dashed #333;
-    margin: 25px 0;
-  }
-
-  .note {
-    font-size: 13px;
-    color: #999;
-    text-align: right;
-    margin-top: 10px;
-  }
-
-  /* 🚨 系统警告效果 */
-  .system-alert {
+  /* 🔺 警告屏幕 */
+  .alert-screen {
     display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(100,0,0,0.85);
-    color: #ffdddd;
-    font-size: 22px;
+    background: #8B0000;
+    color: black;
+    font-size: 30px;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
     justify-content: center;
     align-items: center;
-    z-index: 100;
-    animation: flicker 0.15s infinite;
+    z-index: 999;
   }
 
-  @keyframes flicker {
-    0%, 100% { background: rgba(100,0,0,0.85); }
-    50% { background: rgba(255,0,0,0.9); }
-  }
-
-  .shake {
-    animation: shake 0.3s infinite;
-  }
-
-  @keyframes shake {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(2px, -2px); }
-    50% { transform: translate(-2px, 2px); }
-    75% { transform: translate(2px, 2px); }
-    100% { transform: translate(0, 0); }
+  .flash {
+    background: #330000 !important;
   }
 </style>
 </head>
 <body>
 
-<header>🔒 内部论坛 · Internal Forum</header>
+  <!-- 左侧导航 -->
+  <div class="sidebar">
+    <div class="logo">SunnyShape 内部邮箱</div>
+    <ul class="menu">
+      <li class="active">📥 收件箱</li>
+      <li>📤 已发送</li>
+      <li>📝 草稿箱</li>
+      <li>🗑️ 已删除</li>
+    </ul>
 
-<main>
-  <h2>📄 草稿区</h2>
+    <div class="email-list" id="emailList">
+      <div class="email-item" onclick="showMail(0)">
+        <div class="title">《祭品条件 - 初稿》</div>
+        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/03/15</div>
+      </div>
+      <div class="email-item" onclick="showMail(1)">
+        <div class="title">《祭品条件 - 修订稿》</div>
+        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/04/20</div>
+      </div>
+      <div class="email-item" onclick="showMail(2)">
+        <div class="title">《祭品条件 - 最终版》</div>
+        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/05/25</div>
+      </div>
+      <div class="email-item" onclick="showMail(3)">
+        <div class="title">草稿：祭品引荐状态</div>
+        <div class="meta">发件人：yanghaochi000@mm.com　｜　2024/05/27</div>
+      </div>
+      <div class="email-item" onclick="showMail(4)">
+        <div class="title">草稿回复：已确认信号</div>
+        <div class="meta">发件人：jianzhi111@mm.com　｜　2024/05/28</div>
+      </div>
+    </div>
+  </div>
 
-  <div class="post">
-    <div class="post-title">《祭品条件 - 初稿》</div>
-    <div class="meta">作者：FitLamb　｜　时间：2024年3月15日</div>
-    <div class="content">
-1. 年龄介于 20 - 30 岁之间；
+  <!-- 右侧内容 -->
+  <div class="content" id="contentArea">
+    <div class="header">
+      <div class="subject">📩 SunnyShape 内部通信系统</div>
+      <div class="fromto">账户：fitlamb@sunnyshape.fit</div>
+    </div>
+    <div class="mailbody">
+      欢迎访问 SunnyShape 组织内部邮箱系统。<br><br>
+      本系统仅供授权导师及核心成员使用。  
+      未经许可的访问行为将被记录。  
+      <br><br>
+      <span style="color:#ff5555;">⚠ 请勿泄露内部通信内容。</span>
+    </div>
+  </div>
+
+  <div class="alert-screen" id="alertScreen">
+    ⚠ 系统检测到未授权访问
+  </div>
+
+  <footer>© Internal Data - SunnyShape Organization Confidential</footer>
+
+<script>
+  const mails = [
+    {
+      subject: "《祭品条件 - 初稿》",
+      from: "fitlamb@sunnyshape.fit",
+      date: "2024年3月15日",
+      body: `1. 年龄介于 20 - 30 岁之间；
 2. 身体健康，无明显疾病；
 3. BMI 低于 22；
 4. 最近三个月参与训练计划者优先；
 5. 心率恢复值在 60 秒内下降 ≥ 35；
 6. 未婚；
 7. 情绪稳定；
-8. 容易被引导参与活动者。
-    </div>
-  </div>
-
-  <div class="post">
-    <div class="post-title">《祭品条件 - 修订稿》</div>
-    <div class="meta">作者：FitLamb　｜　时间：2024年4月20日</div>
-    <div class="content">
-- 增加：数据需在晴朗系统中持续追踪三个月以上；
+8. 容易被引导参与活动者。`
+    },
+    {
+      subject: "《祭品条件 - 修订稿》",
+      from: "fitlamb@sunnyshape.fit",
+      date: "2024年4月20日",
+      body: `- 增加：数据需在晴朗系统中持续追踪三个月以上；
 - 删除：BMI 限制；
 - 调整：以“意愿参与者”替代“被动参与者”；
-- 附加：需由引荐人（即训练同伴）陪同确认。
-    </div>
-  </div>
-
-  <div class="post">
-    <div class="post-title">《祭品条件 - 最终版》</div>
-    <div class="meta">作者：FitLamb　｜　时间：2024年5月25日</div>
-    <div class="content">
-最终条件：
+- 附加：需由引荐人（即训练同伴）陪同确认。`
+    },
+    {
+      subject: "《祭品条件 - 最终版》",
+      from: "fitlamb@sunnyshape.fit",
+      date: "2024年5月25日",
+      body: `最终条件：
 - 训练者数据符合平均健康指标；
 - 已具备身体纯净标准；
 - 经导师确认「觉醒阶段」；
@@ -183,67 +242,55 @@
 - 由推荐人陪同进入仪式场地。
 
 附注：若原目标失联，则由推荐人数据替代，执行方案不变。
-    </div>
-    <div class="warning">⚠️ 下一次仪式 · 仍需 1 名合格个体。</div>
-  </div>
 
-  <div class="divider"></div>
-
-  <h2>📧 内部通信草稿（未发送）</h2>
-
-  <div class="post">
-    <div class="meta">发件人：yanghaochi000@mm.com　｜　收件人：jianzhi111@mm.com</div>
-    <div class="content">
-—— 之前那位（122345）的数据已达标准。
+⚠ 下一次仪式 · 仍需 1 名合格个体。`
+    },
+    {
+      subject: "草稿：祭品引荐状态",
+      from: "yanghaochi000@mm.com",
+      date: "2024年5月27日",
+      body: `—— 之前那位（122345）的数据已达标准。
 引荐人资料仍保留在本地缓存。
-等待信号后即可启动邀请。
-    </div>
-    <div class="note">草稿保存时间：2024年5月27日  02:13 AM</div>
-  </div>
-
-  <div class="post">
-    <div class="meta">发件人：jianzhi111@mm.com　｜　收件人：yanghaochi000@mm.com</div>
-    <div class="content">
-确认。她的同伴似乎已经打开了设备。  
+等待信号后即可启动邀请。`
+    },
+    {
+      subject: "草稿回复：已确认信号",
+      from: "jianzhi111@mm.com",
+      date: "2024年5月28日",
+      body: `确认。她的同伴似乎已经打开了设备。  
 若再次干预，将触发警告。  
-谨慎行事。
-    </div>
-    <div class="note">草稿保存时间：2024年5月28日  00:42 AM</div>
-  </div>
+谨慎行事。`
+    }
+  ];
 
-  <div class="warning"><span class="blink">[系统提示]</span> 非授权用户正在访问……</div>
-</main>
+  function showMail(index) {
+    const mail = mails[index];
+    const content = `
+      <div class="header">
+        <div class="subject">${mail.subject}</div>
+        <div class="fromto">发件人：${mail.from}　｜　时间：${mail.date}</div>
+      </div>
+      <div class="mailbody">${mail.body}</div>
+      <div class="warning">[系统提示] 非授权访问可能被记录。</div>
+    `;
+    document.getElementById("contentArea").innerHTML = content;
+  }
 
-<div class="system-alert" id="systemAlert">
-  ⚠ 系统检测到未授权访问<br><br>
-  <span style="font-size:16px;">请立即退出系统。</span>
-</div>
-
-<footer>© Internal Data - SunnyShape Organization Confidential</footer>
-
-<script>
-  // 延迟触发警告动画
+  // 30秒后闪红并警告
   setTimeout(() => {
-    document.body.classList.add("shake");
-    document.getElementById("systemAlert").style.display = "flex";
-
-    // 可选：播放警告音
-    const beep = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-    beep.play();
-
-    // 背景颜色闪动
-    let flash = true;
-    const interval = setInterval(() => {
-      document.body.style.backgroundColor = flash ? "#3b0000" : "#0a0a0a";
-      flash = !flash;
-    }, 150);
-
-    // 7秒后跳转回桌面
+    document.body.classList.add("flash");
     setTimeout(() => {
-      clearInterval(interval);
-      window.location.href = "desktop.html";
-    }, 7000);
-  }, 10000); // 10秒后开始
+      document.body.classList.remove("flash");
+      const alert = document.getElementById("alertScreen");
+      alert.style.display = "flex";
+      document.body.style.background = "#8B0000";
+      document.body.style.color = "black";
+
+      setTimeout(() => {
+        window.location.href = "desktop.html";
+      }, 5000);
+    }, 300);
+  }, 30000);
 </script>
 
 </body>
