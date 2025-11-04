@@ -2,156 +2,125 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>invite_final - 记事本</title>
+  <title>文件夹 - sunflower_backup</title>
   <style>
     body {
-      background: #fefefe;
-      font-family: 'Consolas', 'Courier New', monospace;
-      color: #222;
       margin: 0;
-      padding: 1.5rem;
-      white-space: pre-wrap;
       height: 100vh;
+      background: linear-gradient(160deg, #f0f4f7, #e9eef2);
+      font-family: 'Segoe UI', 'Noto Sans SC', sans-serif;
+      color: #333;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      transition: background-color 0.3s;
     }
-    .window-bar {
-      background: linear-gradient(to bottom, #e6e6e6, #cccccc);
-      border-bottom: 1px solid #aaa;
-      padding: 4px 10px;
-      font-size: 0.9rem;
-      color: #333;
+
+    header {
+      background: linear-gradient(to bottom, #dfe6ee, #cfd8e3);
+      border-bottom: 1px solid #b0b9c5;
+      padding: 10px 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .content {
+
+    header::before {
+      content: "📁";
+      font-size: 1.2rem;
+    }
+
+    .file-area {
       flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      padding: 30px;
+      gap: 40px;
+    }
+
+    .file {
+      width: 110px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .file:hover {
+      transform: translateY(-4px);
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 8px;
+      background: linear-gradient(to bottom right, #fff, #dfe9f3);
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      color: #666;
-      line-height: 1.6;
+      font-size: 2rem;
+      color: #5BC0EB;
+    }
+
+    .filename {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: #333;
       user-select: none;
+      word-break: break-all;
     }
-    .error {
-      font-family: 'Courier New', monospace;
-      color: #999;
-      font-style: italic;
-      animation: blink 1.6s infinite;
-    }
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 0.6; }
-      25%, 75% { opacity: 0.1; }
-    }
-    .bottom {
+
+    footer {
       text-align: right;
       font-size: 0.8rem;
-      color: #aaa;
-      padding-top: 0.5rem;
+      color: #999;
+      padding: 6px 14px;
+      border-top: 1px solid #ccc;
+      background: #f6f8fa;
     }
-    .recover-btn {
-      background: #5BC0EB;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      margin-top: 1.2rem;
-      font-size: 0.9rem;
-      transition: 0.25s;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-    .recover-btn:hover {
-      background: #FA7921;
-      transform: translateY(-2px);
-    }
-    .glitch {
-      margin-top: 1.2rem;
-      color: #444;
-      font-family: 'Courier New', monospace;
-      font-size: 0.95rem;
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
       opacity: 0;
-      transition: opacity 0.3s ease;
-      white-space: pre-wrap;
     }
-    .flash {
-      animation: flashScreen 0.5s linear;
-    }
-    @keyframes flashScreen {
-      0% { background-color: #fff; }
-      50% { background-color: #e6e6e6; }
-      100% { background-color: #fff; }
-    }
-    @keyframes glitchFlash {
-      0%, 100% { opacity: 1; text-shadow: none; }
-      25%, 75% { opacity: 0.3; text-shadow: 1px 0 red, -1px 0 blue; }
-    }
-    .sys-msg {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      background: rgba(240,240,240,0.9);
-      color: #666;
-      padding: 10px 14px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      font-size: 0.85rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.2s ease;
-      font-family: 'Courier New', monospace;
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="window-bar">invite_final - 记事本</div>
 
-  <div class="content" id="mainContent">
-    <div class="error">⚠ 文件内容无法显示。</div>
-    <div style="font-size:0.85rem; color:#bbb;">（文件似乎已损坏或被清空）</div>
-    <button class="recover-btn" id="recoverBtn">尝试恢复内容</button>
-    <div class="glitch" id="glitchText">
-      晴朗轻aht09q8u纵a9p0ufr-0q3u会*&68址：……woie3hrgnzz&……#￥*&…909UF（…）
+  <header>sunflower_backup</header>
+
+  <main class="file-area">
+    <div class="file fade-in" style="animation-delay: 0.1s" onclick="openFile('aijianfeidata.html')">
+      <div class="icon">📄</div>
+      <div class="filename">艾简霏健身数据记录表</div>
     </div>
-  </div>
 
-  <div class="bottom">上次修改时间：2024/05/26 23:11　|　大小：0 KB</div>
+    <div class="file fade-in" style="animation-delay: 0.2s" onclick="openFile('landedongdata.html')">
+      <div class="icon">📄</div>
+      <div class="filename">兰德冬健身数据记录表</div>
+    </div>
 
-  <div class="sys-msg" id="sysMsg">临时文件访问失败：invite_final_recover.tmp 已毁坏</div>
+    <div class="file fade-in" style="animation-delay: 0.3s" onclick="openFile('invite_final.html')">
+      <div class="icon">📄</div>
+      <div class="filename">晴朗轻体放纵聚餐详情</div>
+    </div>
+  </main>
+
+  <footer>上次修改：2024/05/26 23:11</footer>
 
   <script>
-    const btn = document.getElementById('recoverBtn');
-    const glitch = document.getElementById('glitchText');
-    const sysMsg = document.getElementById('sysMsg');
-    const body = document.body;
-
-    btn.addEventListener('click', () => {
-      body.classList.add('flash');
-      btn.disabled = true;
-      btn.innerText = '正在恢复...';
-
-      // 显示乱码
-      setTimeout(() => {
-        glitch.style.opacity = 1;
-        glitch.style.animation = 'glitchFlash 0.4s ease-in-out 2';
-      }, 400);
-
-      // 乱码闪烁两下后消失
-      setTimeout(() => {
-        glitch.style.opacity = 0;
-        glitch.style.animation = 'none';
-        btn.style.display = 'none';
-        body.classList.remove('flash');
-      }, 1500);
-
-      // 显示系统消息
-      setTimeout(() => {
-        sysMsg.style.opacity = 1;
-      }, 2000);
-    });
+    function openFile(url){
+      window.open(url, '_blank');
+    }
   </script>
+
 </body>
 </html>
