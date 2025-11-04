@@ -28,17 +28,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.95rem;
-      color: #666;
+      flex-direction: column;
       text-align: center;
+      color: #666;
       line-height: 1.6;
       user-select: none;
-    }
-    .bottom {
-      text-align: right;
-      font-size: 0.8rem;
-      color: #aaa;
-      padding-top: 0.5rem;
     }
     .error {
       font-family: 'Courier New', monospace;
@@ -50,19 +44,79 @@
       0%, 50%, 100% { opacity: 0.6; }
       25%, 75% { opacity: 0.1; }
     }
+    .bottom {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #aaa;
+      padding-top: 0.5rem;
+    }
+    .recover-btn {
+      background: #5BC0EB;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      margin-top: 1.2rem;
+      font-size: 0.9rem;
+      transition: 0.25s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .recover-btn:hover {
+      background: #FA7921;
+      transform: translateY(-2px);
+    }
+    .glitch {
+      margin-top: 1.2rem;
+      color: #444;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      white-space: pre-wrap;
+      animation: static 0.4s steps(2) infinite;
+    }
+    @keyframes static {
+      50% { text-shadow: 1px 0 red, -1px 0 blue; }
+    }
+    .flash {
+      animation: flashScreen 0.5s linear;
+    }
+    @keyframes flashScreen {
+      0% { background-color: #fff; }
+      50% { background-color: #e6e6e6; }
+      100% { background-color: #fff; }
+    }
   </style>
 </head>
 <body>
   <div class="window-bar">invite_final - 记事本</div>
 
-  <div class="content">
-    <div>
-      <div class="error">⚠ 文件内容无法显示。</div>
-      <br>
-      <div style="font-size:0.85rem; color:#bbb;">（文件似乎已损坏或被清空）</div>
-    </div>
+  <div class="content" id="mainContent">
+    <div class="error">⚠ 文件内容无法显示。</div>
+    <div style="font-size:0.85rem; color:#bbb;">（文件似乎已损坏或被清空）</div>
+    <button class="recover-btn" id="recoverBtn">尝试恢复内容</button>
+    <div class="glitch" id="glitchText">晴朗轻aht09q8u纵a9p0ufr-0q3u会*&68址：……woie3hrgnzz&……#￥*&…909UF（…）</div>
   </div>
 
   <div class="bottom">上次修改时间：2024/05/26 23:11　|　大小：0 KB</div>
+
+  <script>
+    const btn = document.getElementById('recoverBtn');
+    const glitch = document.getElementById('glitchText');
+    const body = document.body;
+
+    btn.addEventListener('click', () => {
+      body.classList.add('flash');
+      glitch.style.opacity = 1;
+      btn.disabled = true;
+      btn.innerText = '正在恢复...';
+      setTimeout(() => {
+        btn.style.display = 'none';
+        glitch.style.opacity = 1;
+        body.classList.remove('flash');
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
