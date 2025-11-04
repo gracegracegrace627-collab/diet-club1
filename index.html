@@ -1,239 +1,184 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>kukuso 搜索</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Noto Sans SC", "Segoe UI", sans-serif;
-      background: linear-gradient(to bottom right, #f4fbff, #fff9e7);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      color: #333;
-      transition: 0.3s;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kukugo 地图</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Noto Sans SC", "Segoe UI", sans-serif;
+    background: #eef5f8;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-    h1 {
-      font-size: 48px;
-      color: #3ba9ff;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      font-weight: 800;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-    }
+  header {
+    background: #3ba9ff;
+    color: white;
+    padding: 15px 30px;
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
 
-    .search-box {
-      display: flex;
-      width: 80%;
-      max-width: 600px;
-      background: white;
-      border-radius: 50px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: 0.3s;
-    }
+  .search-bar {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    width: 350px;
+  }
 
-    .search-box:focus-within {
-      transform: scale(1.03);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
+  .search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+  }
 
-    .search-box input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      padding: 15px 20px;
-      border-radius: 50px 0 0 50px;
-    }
+  .map-container {
+    flex: 1;
+    position: relative;
+    background: url('https://images.unsplash.com/photo-1502920917128-1aa500764b43?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    overflow: hidden;
+  }
 
-    .search-box button {
-      border: none;
-      background: #3ba9ff;
-      color: white;
-      padding: 0 25px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 0 50px 50px 0;
-      transition: 0.3s;
-    }
+  .marker {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: #fa7921;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: 0.3s;
+  }
 
-    .search-box button:hover {
-      background: #1d8be2;
-    }
+  .marker:hover {
+    transform: scale(1.2);
+  }
 
-    .favorites {
-      margin-top: 40px;
-      text-align: center;
-    }
+  .tooltip {
+    display: none;
+    position: absolute;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    padding: 15px;
+    width: 240px;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+  }
 
-    .favorites h3 {
-      color: #666;
-      font-weight: 500;
-      font-size: 15px;
-    }
+  .tooltip h3 {
+    margin-top: 0;
+    color: #fa7921;
+  }
 
-    .fav-link {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      background: white;
-      border-radius: 30px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      color: #0077cc;
-      text-decoration: none;
-      transition: 0.3s;
-      font-size: 15px;
-    }
+  .tooltip p {
+    font-size: 14px;
+    color: #555;
+  }
 
-    .fav-link:hover {
-      background: #eaf5ff;
-      transform: scale(1.05);
-    }
+  .tooltip button {
+    margin-top: 10px;
+    background: #3ba9ff;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
 
-    /* 弹出窗口 */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-    }
+  .tooltip button:hover {
+    background: #1d8be2;
+  }
 
-    .modal-content {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      width: 80%;
-      max-width: 700px;
-      height: 80%;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+  footer {
+    text-align: center;
+    padding: 10px;
+    background: #f4fbff;
+    color: #777;
+    font-size: 13px;
+  }
 
-    .modal iframe {
-      flex: 1;
-      border: none;
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
-    }
+  /* 诡异闪烁效果 */
+  .flash {
+    animation: flash 0.3s ease;
+  }
 
-    .close-btn {
-      background: #ff5555;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 8px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      align-self: flex-end;
-      transition: 0.3s;
-    }
-
-    .close-btn:hover {
-      background: #ff2222;
-    }
-  </style>
+  @keyframes flash {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(2); }
+    100% { filter: brightness(1); }
+  }
+</style>
 </head>
 <body>
 
-  <h1>kukuso</h1>
+  <header>
+    <div>kukugo 地图</div>
+    <div class="search-bar">
+      <input type="text" placeholder="搜索地点、路线或机构..." />
+    </div>
+  </header>
 
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="搜索或输入网址..." />
-    <button id="searchBtn">搜索</button>
-  </div>
+  <div class="map-container" id="map">
+    <!-- 模拟几个地标 -->
+    <div class="marker" style="top: 40%; left: 30%;" title="晴光健身中心"></div>
+    <div class="marker" style="top: 55%; left: 45%;" title="市立医院"></div>
+    <div class="marker" style="top: 60%; left: 70%;" title="蓝天广场"></div>
+    <div class="marker" style="top: 50%; left: 80%;" id="qqcyMarker" title="青青草原"></div>
 
-  <div class="favorites">
-    <h3>⭐ 收藏链接</h3>
-    <a href="#" class="fav-link" id="favLink">艾简霏的社交媒体主页</a>
-    <a href="#" class="fav-link" id="mapLink">kukugo地图</a>
-  </div>
-
-  <!-- 弹出社交媒体页 -->
-  <div class="modal" id="socialModal">
-    <div class="modal-content">
-      <button class="close-btn" id="closeModal">关闭</button>
-      <iframe src="ajfsocialmedia.html" title="艾简霏社交主页"></iframe>
+    <div class="tooltip" id="qqcyTooltip">
+      <h3>青青草原</h3>
+      <p>⚠ 位置加载失败（error code: Q-Q-C-Y_404）</p>
+      <button id="viewBtn">查看详情</button>
     </div>
   </div>
 
-  <script>
-    const searchBtn = document.getElementById('searchBtn');
-    const input = document.getElementById('searchInput');
-    const favLink = document.getElementById('favLink');
-    const mapLink = document.getElementById('mapLink');
-    const modal = document.getElementById('socialModal');
-    const closeModal = document.getElementById('closeModal');
+  <footer>
+    © 2025 kukugo map | 数据仅供参考
+  </footer>
 
-    // 搜索逻辑
-    function doSearch() {
-      const value = input.value.trim().toLowerCase();
-      if (!value) return;
+<script>
+  const qqcyMarker = document.getElementById('qqcyMarker');
+  const tooltip = document.getElementById('qqcyTooltip');
+  const viewBtn = document.getElementById('viewBtn');
+  const map = document.getElementById('map');
 
-      if (value.includes('艾简霏') || value.includes('aijianfei')) {
-        window.location.href = 'search_result.html';
-      } else if (value.includes('晴朗轻体馆') || value.includes('sunnyshape')) {
-        window.location.href = 'search_result2.html';
-      } else if (value.includes('地图')) {
-        window.location.href = 'search_resultmap.html';
-      } else if (value.includes('常建智')) {
-        window.location.href = 'search_resultcjz.html';
-      } else if (value.includes('车劲口科技有限公司')) {
-        window.location.href = 'search_resultcompany.html';
-      } else if (value.includes('杨浩池') || value.includes('fitlamb')) {
-        window.location.href = 'search_resultyhc.html';
-      } else if (value.includes('卜倾楚')) {
-        window.location.href = 'search_resultbqc.html';
-      } else if (value.includes('卜芝稻')) {
-        window.location.href = 'search_resultbzd.html';
-      } else if (value.includes('青青草原')) {
-        window.location.href = 'search_resultqqcy.html';
-      } else if (value.includes('炮灰乙')) {
-        window.location.href = 'search_resultph1.html';
-      } else if (value.includes('炮灰甲')) {
-        window.location.href = 'search_resultph2.html';
-      } else if (value.includes('邮箱')) {
-        window.location.href = 'search_resultemail.html';
-      } else {
-        alert('未找到相关内容。');
-      }
+  qqcyMarker.addEventListener('click', () => {
+    tooltip.style.display = 'block';
+  });
+
+  map.addEventListener('click', (e) => {
+    if (e.target !== qqcyMarker && e.target !== tooltip && e.target !== viewBtn) {
+      tooltip.style.display = 'none';
     }
+  });
 
-    searchBtn.addEventListener('click', doSearch);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') doSearch();
-    });
+  viewBtn.addEventListener('click', () => {
+    window.location.href = 'search_resultqqcy.html';
+  });
 
-    // 收藏链接：艾简霏社交主页 → 弹窗
-    favLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.style.display = 'flex';
-    });
-
-    closeModal.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
-    });
-
-    // 收藏链接：kukugo地图 → 新页面打开
-    mapLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.open('kukugo_map.html', '_blank');
-    });
-  </script>
+  // 页面加载10秒后轻微闪烁
+  setTimeout(() => {
+    document.body.classList.add('flash');
+    setTimeout(() => document.body.classList.remove('flash'), 300);
+  }, 10000);
+</script>
 
 </body>
 </html>
