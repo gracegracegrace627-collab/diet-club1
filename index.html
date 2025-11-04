@@ -1,126 +1,229 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>文件夹 - sunflower_backup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艾简霏的电脑</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(160deg, #f0f4f7, #e9eef2);
-      font-family: 'Segoe UI', 'Noto Sans SC', sans-serif;
-      color: #333;
-      display: flex;
-      flex-direction: column;
+      background: url('https://cdn.pixabay.com/photo/2016/11/29/05/55/active-1867436_1280.jpg') no-repeat center center/cover;
+      font-family: "Microsoft YaHei", sans-serif;
+      color: white;
+      overflow: hidden;
+      position: relative;
     }
 
-    header {
-      background: linear-gradient(to bottom, #dfe6ee, #cfd8e3);
-      border-bottom: 1px solid #b0b9c5;
-      padding: 10px 20px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    /* 左下角登录信息 */
+    .login-info {
+      position: absolute;
+      bottom: 10px;
+      left: 15px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 0 3px rgba(0,0,0,0.5);
     }
 
-    header::before {
-      content: "📁";
-      font-size: 1.2rem;
+    /* 右下角时间 */
+    .clock {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 0 3px rgba(0,0,0,0.6);
+      font-family: "Consolas", monospace;
+      letter-spacing: 0.5px;
     }
 
-    .file-area {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      padding: 30px;
-      gap: 40px;
-    }
-
-    .file {
-      width: 110px;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .file:hover {
-      transform: translateY(-4px);
+    /* 桌面图标布局 */
+    .desktop {
+      display: grid;
+      grid-template-columns: repeat(6, 110px);
+      grid-auto-rows: 110px;
+      justify-content: center;
+      align-content: start;
+      padding-top: 80px;
+      gap: 60px 80px;
     }
 
     .icon {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 8px;
-      background: linear-gradient(to bottom right, #fff, #dfe9f3);
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: #5BC0EB;
-    }
-
-    .filename {
-      font-size: 0.9rem;
-      line-height: 1.4;
-      color: #333;
+      color: white;
+      cursor: pointer;
       user-select: none;
-      word-break: break-all;
+      text-align: center;
+      transition: transform 0.2s;
     }
 
-    footer {
-      text-align: right;
-      font-size: 0.8rem;
-      color: #999;
-      padding: 6px 14px;
-      border-top: 1px solid #ccc;
-      background: #f6f8fa;
+    .icon img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
     }
 
-    .fade-in {
-      animation: fadeIn 0.6s ease forwards;
-      opacity: 0;
+    .icon span {
+      font-size: 13px;
+      text-shadow: 0 0 5px rgba(0,0,0,0.7);
+      word-break: break-word;
+      width: 100%;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* 鼠标悬停轻微抖动 */
+    .icon:hover {
+      animation: shake 0.3s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-2px, 0); }
+      50% { transform: translate(2px, 0); }
+      75% { transform: translate(-2px, 0); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* 弹出层（备忘录） */
+    .calendar-popup {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      border-radius: 10px;
+      padding: 20px 25px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      width: 320px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .calendar-popup h2 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #222;
+    }
+
+    .calendar {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .calendar th, .calendar td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      width: 14%;
+    }
+
+    .calendar th {
+      background-color: #f0f0f0;
+    }
+
+    .note {
+      font-size: 13px;
+      margin-top: 8px;
+      color: #666;
+    }
+
+    .close-btn {
+      margin-top: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-
-  <header>sunflower_backup</header>
-
-  <main class="file-area">
-    <div class="file fade-in" style="animation-delay: 0.1s" onclick="openFile('aijianfeidata.html')">
-      <div class="icon">📄</div>
-      <div class="filename">艾简霏健身数据记录表</div>
+  <div class="desktop">
+    <div class="icon" id="myComputer">
+      <img src="https://cdn-icons-png.flaticon.com/512/179/179386.png" alt="我的电脑">
+      <span>我的电脑</span>
     </div>
 
-    <div class="file fade-in" style="animation-delay: 0.2s" onclick="openFile('landedongdata.html')">
-      <div class="icon">📄</div>
-      <div class="filename">兰德冬健身数据记录表</div>
+    <div class="icon" id="browser">
+      <img src="https://cdn-icons-png.flaticon.com/512/1042/1042339.png" alt="kukusou 浏览器">
+      <span>kukusou浏览器</span>
     </div>
 
-    <div class="file fade-in" style="animation-delay: 0.3s" onclick="openFile('invite_final.html')">
-      <div class="icon">📄</div>
-      <div class="filename">晴朗轻体放纵聚餐详情</div>
+    <div class="icon" id="folder">
+      <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="健身数据文件夹">
+      <span>健身数据文件夹</span>
     </div>
-  </main>
 
-  <footer>上次修改：2024/05/26 23:11</footer>
+    <div class="icon" id="note">
+      <img src="https://cdn-icons-png.flaticon.com/512/1827/1827504.png" alt="备忘录">
+      <span>备忘录</span>
+    </div>
+
+    <div class="icon" id="trash">
+      <img src="https://cdn-icons-png.flaticon.com/512/3096/3096673.png" alt="垃圾箱">
+      <span>垃圾箱</span>
+    </div>
+  </div>
+
+  <!-- 左下角登录信息 -->
+  <div class="login-info">已登录: 艾简霏（aijianfei0602@mm.com）</div>
+
+  <!-- 右下角时钟 -->
+  <div class="clock" id="clock"></div>
+
+  <!-- 备忘录弹窗 -->
+  <div class="calendar-popup" id="calendarPopup">
+    <h2>2024年6月</h2>
+    <table class="calendar">
+      <tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
+      <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+      <tr><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td></tr>
+      <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+      <tr><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td></tr>
+    </table>
+    <div class="note">这个月就到了我26岁的生日啦！</div>
+    <button class="close-btn" onclick="closeCalendar()">关闭</button>
+  </div>
 
   <script>
-    function openFile(url){
-      window.open(url, '_blank');
-    }
-  </script>
+    // 图标功能
+    document.getElementById('browser').addEventListener('click', () => {
+      window.location.href = 'search.html';
+    });
 
+    document.getElementById('folder').addEventListener('click', () => {
+      window.location.href = 'filefolder.html';
+    });
+
+    document.getElementById('note').addEventListener('click', () => {
+      document.getElementById('calendarPopup').style.display = 'block';
+    });
+
+    function closeCalendar() {
+      document.getElementById('calendarPopup').style.display = 'none';
+    }
+
+    // 时钟功能
+    function updateClock() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
 </body>
 </html>
