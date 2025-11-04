@@ -126,15 +126,15 @@
     font-size: 12px;
   }
 
-  /* 🔺 警告屏幕 */
+  /* ⚠ 警告屏幕 */
   .alert-screen {
     display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background: #8B0000;
-    color: black;
+    background: black;
+    color: #ff3b3b;
     font-size: 30px;
     font-weight: bold;
     letter-spacing: 2px;
@@ -145,7 +145,19 @@
   }
 
   .flash {
-    background: #330000 !important;
+    background: #ff0000 !important;
+  }
+
+  .shake {
+    animation: shake 0.3s infinite;
+  }
+
+  @keyframes shake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
+    100% { transform: translate(0, 0); }
   }
 </style>
 </head>
@@ -155,33 +167,12 @@
   <div class="sidebar">
     <div class="logo">SunnyShape 内部邮箱</div>
     <ul class="menu">
-      <li class="active">📥 收件箱</li>
-      <li>📤 已发送</li>
-      <li>📝 草稿箱</li>
-      <li>🗑️ 已删除</li>
+      <li id="inboxBtn" class="active" onclick="switchBox('inbox')">📥 收件箱</li>
+      <li id="draftBtn" onclick="switchBox('draft')">📝 草稿箱</li>
     </ul>
 
     <div class="email-list" id="emailList">
-      <div class="email-item" onclick="showMail(0)">
-        <div class="title">《祭品条件 - 初稿》</div>
-        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/03/15</div>
-      </div>
-      <div class="email-item" onclick="showMail(1)">
-        <div class="title">《祭品条件 - 修订稿》</div>
-        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/04/20</div>
-      </div>
-      <div class="email-item" onclick="showMail(2)">
-        <div class="title">《祭品条件 - 最终版》</div>
-        <div class="meta">来自：fitlamb@sunnyshape.fit　｜　2024/05/25</div>
-      </div>
-      <div class="email-item" onclick="showMail(3)">
-        <div class="title">草稿：祭品引荐状态</div>
-        <div class="meta">发件人：yanghaochi000@mm.com　｜　2024/05/27</div>
-      </div>
-      <div class="email-item" onclick="showMail(4)">
-        <div class="title">草稿回复：已确认信号</div>
-        <div class="meta">发件人：jianzhi111@mm.com　｜　2024/05/28</div>
-      </div>
+      <!-- 默认加载收件箱 -->
     </div>
   </div>
 
@@ -207,7 +198,27 @@
   <footer>© Internal Data - SunnyShape Organization Confidential</footer>
 
 <script>
-  const mails = [
+  // 收件箱 & 草稿箱数据
+  const inboxMails = [
+    {
+      subject: "祭品引荐状态",
+      from: "yanghaochi000@mm.com",
+      date: "2024年5月27日",
+      body: `—— 之前那位（122345）的数据已达标准。
+引荐人资料仍保留在本地缓存。
+等待信号后即可启动邀请。`
+    },
+    {
+      subject: "回复：已确认信号",
+      from: "jianzhi111@mm.com",
+      date: "2024年5月28日",
+      body: `确认。她的同伴似乎已经打开了设备。  
+若再次干预，将触发警告。  
+谨慎行事。`
+    }
+  ];
+
+  const draftMails = [
     {
       subject: "《祭品条件 - 初稿》",
       from: "fitlamb@sunnyshape.fit",
@@ -244,27 +255,38 @@
 附注：若原目标失联，则由推荐人数据替代，执行方案不变。
 
 ⚠ 下一次仪式 · 仍需 1 名合格个体。`
-    },
-    {
-      subject: "草稿：祭品引荐状态",
-      from: "yanghaochi000@mm.com",
-      date: "2024年5月27日",
-      body: `—— 之前那位（122345）的数据已达标准。
-引荐人资料仍保留在本地缓存。
-等待信号后即可启动邀请。`
-    },
-    {
-      subject: "草稿回复：已确认信号",
-      from: "jianzhi111@mm.com",
-      date: "2024年5月28日",
-      body: `确认。她的同伴似乎已经打开了设备。  
-若再次干预，将触发警告。  
-谨慎行事。`
     }
   ];
 
+  // 当前显示的邮箱类型
+  let currentBox = 'inbox';
+
+  function switchBox(type) {
+    currentBox = type;
+    document.getElementById('inboxBtn').classList.toggle('active', type === 'inbox');
+    document.getElementById('draftBtn').classList.toggle('active', type === 'draft');
+    loadMailList();
+    document.getElementById('contentArea').innerHTML = `
+      <div class="header">
+        <div class="subject">📩 ${type === 'inbox' ? '收件箱' : '草稿箱'}</div>
+        <div class="fromto">账户：fitlamb@sunnyshape.fit</div>
+      </div>
+      <div class="mailbody">请选择一封邮件查看内容。</div>`;
+  }
+
+  function loadMailList() {
+    const list = currentBox === 'inbox' ? inboxMails : draftMails;
+    const container = document.getElementById('emailList');
+    container.innerHTML = list.map((mail, i) => `
+      <div class="email-item" onclick="showMail(${i})">
+        <div class="title">${mail.subject}</div>
+        <div class="meta">${mail.from}　｜　${mail.date}</div>
+      </div>
+    `).join('');
+  }
+
   function showMail(index) {
-    const mail = mails[index];
+    const mail = (currentBox === 'inbox' ? inboxMails : draftMails)[index];
     const content = `
       <div class="header">
         <div class="subject">${mail.subject}</div>
@@ -276,20 +298,23 @@
     document.getElementById("contentArea").innerHTML = content;
   }
 
-  // 30秒后闪红并警告
+  loadMailList();
+
+  // 🔺 30秒后触发警告动画
   setTimeout(() => {
     document.body.classList.add("flash");
     setTimeout(() => {
       document.body.classList.remove("flash");
       const alert = document.getElementById("alertScreen");
       alert.style.display = "flex";
-      document.body.style.background = "#8B0000";
-      document.body.style.color = "black";
+      document.body.style.background = "black";
+      document.body.style.color = "#ff3b3b";
+      document.body.classList.add("shake");
 
       setTimeout(() => {
         window.location.href = "desktop.html";
       }, 5000);
-    }, 300);
+    }, 250);
   }, 30000);
 </script>
 
