@@ -133,9 +133,9 @@
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background: black;
-    color: #ff3b3b;
-    font-size: 30px;
+    background: #ff0000;
+    color: black;
+    font-size: 32px;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
@@ -145,7 +145,7 @@
   }
 
   .flash {
-    background: #ff0000 !important;
+    background: #8B0000 !important;
   }
 
   .shake {
@@ -171,9 +171,7 @@
       <li id="draftBtn" onclick="switchBox('draft')">📝 草稿箱</li>
     </ul>
 
-    <div class="email-list" id="emailList">
-      <!-- 默认加载收件箱 -->
-    </div>
+    <div class="email-list" id="emailList"></div>
   </div>
 
   <!-- 右侧内容 -->
@@ -198,7 +196,6 @@
   <footer>© Internal Data - SunnyShape Organization Confidential</footer>
 
 <script>
-  // 收件箱 & 草稿箱数据
   const inboxMails = [
     {
       subject: "祭品引荐状态",
@@ -258,7 +255,6 @@
     }
   ];
 
-  // 当前显示的邮箱类型
   let currentBox = 'inbox';
 
   function switchBox(type) {
@@ -300,21 +296,20 @@
 
   loadMailList();
 
-  // 🔺 30秒后触发警告动画
+  // 30秒后触发警告动画
   setTimeout(() => {
     document.body.classList.add("flash");
     setTimeout(() => {
       document.body.classList.remove("flash");
       const alert = document.getElementById("alertScreen");
       alert.style.display = "flex";
-      document.body.style.background = "black";
-      document.body.style.color = "#ff3b3b";
-      document.body.classList.add("shake");
+      document.body.style.background = "#ff0000";
+      document.body.style.color = "black";
 
       setTimeout(() => {
         window.location.href = "desktop.html";
       }, 5000);
-    }, 250);
+    }, 200);
   }, 30000);
 </script>
 
