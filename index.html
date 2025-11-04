@@ -1,152 +1,157 @@
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
 <!DOCTYPE html>
-      date: "2024年5月25日",
-      body: `最终条件：
-- 训练者数据符合平均健康指标；
-- 已具备身体纯净标准；
-- 经导师确认「觉醒阶段」；
-- 身体与精神状态均稳定；
-- 由推荐人陪同进入仪式场地。
-
-附注：若原目标失联，则由推荐人数据替代，执行方案不变。
-
-⚠ 下一次仪式 · 仍需 1 名合格个体。`
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@常建智 - 社交主页</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #E8F9FD, #FFFBE7);
+      color: #333;
     }
-  ];
 
-  let currentBox = 'inbox';
+    header {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+    }
 
-  function switchBox(type) {
-    currentBox = type;
-    document.getElementById('inboxBtn').classList.toggle('active', type === 'inbox');
-    document.getElementById('draftBtn').classList.toggle('active', type === 'draft');
-    loadMailList();
-    document.getElementById('contentArea').innerHTML = `
-      <div class="header">
-        <div class="subject">📩 ${type === 'inbox' ? '收件箱' : '草稿箱'}</div>
-        <div class="fromto">账户：fitlamb@sunnyshape.fit</div>
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: url('https://cdn-icons-png.flaticon.com/512/3135/3135715.png') center/cover no-repeat;
+      margin-right: 1rem;
+    }
+
+    .user-info h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .user-info p {
+      margin: 4px 0 0 0;
+      font-size: 14px;
+      color: #777;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 1rem;
+    }
+
+    .post {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .post:hover {
+      transform: scale(1.01);
+    }
+
+    .post img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 1rem 1.2rem;
+    }
+
+    .post-content h3 {
+      margin-top: 0;
+      color: #FA7921;
+      font-size: 18px;
+    }
+
+    .post-content p {
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #888;
+      text-align: right;
+    }
+
+    footer {
+      text-align: center;
+      color: #999;
+      font-size: 13px;
+      margin: 40px 0 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="avatar"></div>
+    <div class="user-info">
+      <h1>@常建智</h1>
+      <p><b>车劲口科技有限公司</b> · 行政主管</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="post">
+      <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=900&q=60" alt="办公室">
+      <div class="post-content">
+        <h3>个人信息：<b>车劲口科技有限公司</b>行政主管</h3>
+        <p>工作之外，我最喜欢的事情就是健身。  
+        健身让我更高效地面对每天的挑战，也让我在压力中找到平衡。</p>
+        <div class="date">📅 2024年2月10日</div>
       </div>
-      <div class="mailbody">请选择一封邮件查看内容。</div>`;
-  }
+    </div>
 
-  function loadMailList() {
-    const list = currentBox === 'inbox' ? inboxMails : draftMails;
-    const container = document.getElementById('emailList');
-    container.innerHTML = list.map((mail, i) => `
-      <div class="email-item" onclick="showMail(${i})">
-        <div class="title">${mail.subject}</div>
-        <div class="meta">${mail.from}　｜　${mail.date}</div>
+    <div class="post">
+      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=60" alt="聚会宣传">
+      <div class="post-content">
+        <h3>轻加放纵餐聚会宣传页</h3>
+        <p>🍽️【轻加放纵餐·城市分会】  
+        在享受中释放，在释放中恢复。  
+        <br>时间：春季限定 · 地点报名后私信通知。  
+        <br>我们相信，身体与心灵的平衡，来自适度的“放纵”。</p>
+        <div class="date">📅 2024年3月12日</div>
       </div>
-    `).join('');
-  }
+    </div>
 
-  function showMail(index) {
-    const mail = (currentBox === 'inbox' ? inboxMails : draftMails)[index];
-    const content = `
-      <div class="header">
-        <div class="subject">${mail.subject}</div>
-        <div class="fromto">发件人：${mail.from}　｜　时间：${mail.date}</div>
+    <div class="post">
+      <img src="https://images.unsplash.com/photo-1598970434795-0c54fe7c0642?auto=format&fit=crop&w=900&q=60" alt="健身心得">
+      <div class="post-content">
+        <h3>健身心得</h3>
+        <p>健身不只是塑形，更是与自己对话的过程。  
+        汗水是诚实的，只有真正投入的人，才能感受到蜕变的快感。</p>
+        <div class="date">📅 2024年4月2日</div>
       </div>
-      <div class="mailbody">${mail.body}</div>
-      <div class="warning">[系统提示] 非授权访问可能被记录。</div>
-    `;
-    document.getElementById("contentArea").innerHTML = content;
-  }
+    </div>
 
-  loadMailList();
+    <div class="post">
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=60" alt="生命在于健身">
+      <div class="post-content">
+        <h3>生命在于健身</h3>
+        <p>“生命在于运动”，但我更相信“生命在于健身”。  
+        身体的每一次极限突破，都是灵魂的觉醒。  
+        只有汗水能证明：你还活着。</p>
+        <div class="date">📅 2024年5月5日</div>
+      </div>
+    </div>
+  </main>
 
-  // 30秒后触发警告动画
-  setTimeout(() => {
-    document.body.classList.add("flash");
-    setTimeout(() => {
-      document.body.classList.remove("flash");
-      const alert = document.getElementById("alertScreen");
-      alert.style.display = "flex";
-      document.body.style.background = "#ff0000";
-      document.body.style.color = "black";
-
-      setTimeout(() => {
-        window.location.href = "desktop.html";
-      }, 5000);
-    }, 200);
-  }, 30000);
-</script>
+  <footer>
+    © 2025 晴朗轻体馆 SunnyShape | 虚构社交页面
+  </footer>
 
 </body>
 </html>
-
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to th
