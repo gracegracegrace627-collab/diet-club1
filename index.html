@@ -22,6 +22,45 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   }
 
+  /* 封面区 */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background: url('firecamp.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+  }
+
+  .hero-text {
+    position: relative;
+    padding: 40px 60px;
+    z-index: 1;
+    color: white;
+  }
+
+  .hero-text h1 {
+    font-size: 32px;
+    margin: 0;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .hero-text p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #ddd;
+  }
+
   .container {
     max-width: 800px;
     margin: 40px auto;
@@ -29,12 +68,6 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     padding: 40px 50px;
-  }
-
-  h1 {
-    font-size: 28px;
-    margin-top: 0;
-    color: #222;
   }
 
   .meta {
@@ -76,15 +109,30 @@
   }
 
   @keyframes flicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-      opacity: 1;
-    }
-    20%, 24%, 55% {
-      opacity: 0.2;
-    }
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.2; }
   }
 
-  /* 新闻推荐区 */
+  /* 正文内图 */
+  .news-image {
+    text-align: center;
+    margin: 25px 0;
+  }
+
+  .news-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  .news-image p {
+    text-indent: 0;
+    font-size: 13px;
+    color: #777;
+    margin-top: 8px;
+  }
+
+  /* 相关新闻 */
   .related {
     margin-top: 60px;
     border-top: 3px solid #d32f2f;
@@ -163,19 +211,31 @@
 <body>
   <header>晴朗新闻 • 社会</header>
 
+  <!-- 封面图区域 -->
+  <div class="hero">
+    <div class="hero-text">
+      <h1>一次放纵，烧毁了多少家庭</h1>
+      <p>——青青草原野营火灾致4人遇难，幸存者供述出现“第九人”谜团</p>
+    </div>
+  </div>
+
   <div class="container">
-    <h1>一次放纵，烧毁了多少家庭——青青草原野营火灾致4人遇难</h1>
-    <div class="meta">记者：林岚 ｜ 2025年5月27日 ｜ 来源：晴朗市广播电视台</div>
+    <div class="meta">记者：习音 吴恩 ｜ 2025年5月27日 ｜ 来源：晴朗市广播电视台</div>
 
     <p>5月26日凌晨，晴朗市郊外的“青青草原”野外营地突发大火，火势猛烈，现场火光冲天，造成<span class="highlight">4人当场遇难</span>。经确认，遇难者均为本地知名健身论坛“晴朗轻体馆”的会员，分别是：甲一（21岁）、乙尔（22岁）、丙飒（23岁）及丁思（24岁）。</p>
 
     <p>据悉，事发当天，“晴朗轻体馆”论坛组织了一场例行的“放纵餐”野外聚会，共有8人参加。活动由论坛两位组织者常建智与杨浩池筹办，两人均在事故中幸存。</p>
 
+    <div class="news-image">
+      <img src="firecamp.jpg" alt="火灾后的营地现场照片">
+      <p>▲ 火灾现场照片，浓烟与警戒线笼罩下的帐篷残骸。（记者摄）</p>
+    </div>
+
     <p>火灾发生后，记者在医院采访了两名幸存者——网名“炮灰甲”和“炮灰乙”。两人情绪极度不稳定，仍处于惊吓与悲痛之中。</p>
 
     <div class="quote">“这场火灾太可怕了，火嗖的一下冲的老高，像一条巨龙一样吞噬了他们……呜呜呜……”——炮灰甲</div>
 
-    <div class="quote">“火起得迫不及防，好像有一条隔离带一样，把他们困在火里。起火前老杨让我陪他去帐篷拿个东西，我才逃过一劫。”——炮灰乙</div>
+    <div class="quote">“火起得迫不及防，好像有一条隔离带一样，把他们困在火里。起火前老杨让我陪他去溪边拿个东西，我才逃过一劫。”——炮灰乙</div>
 
     <p>令人不安的是，两位幸存者的陈述中出现了<span class="highlight">人数矛盾</span>。炮灰甲回忆道：“就在起火前，常建智让我和他去车上看看一个东西在不在，我才没被困住。我觉得好恐怖，也对那五个伙伴感到愧疚。”</p>
 
@@ -183,9 +243,9 @@
 
     <p>炮灰乙答道：“我们九个人关系超好的，经常一起健身、聚会，谁想到这次放纵餐就是最后一次呢……”</p>
 
-    <p>当记者再次询问“第九个人”是谁时，炮灰甲突然情绪失控，哭泣不止，只能重复“我不知道……呜呜……不知道……”。随后，炮灰乙情绪激动地要求记者“离开我们远一点”，采访被迫中断。</p>
+    <p>当记者再次询问“第九个人”是谁时，炮灰甲突然情绪失控，哭泣不止，只能重复“呜呜, 不知道……呜呜……不知道……”。随后，炮灰乙情绪激动地要求记者“离开我们远一点”，采访被迫中断。</p>
 
-    <p>警方在调查中确认，现场共找到4具遗体。两名幸存者目前已被送往精神科接受治疗。两位组织者坚称聚会仅有8人参加。火灾原因仍在进一步调查中。</p>
+    <p>警方在调查中确认，现场共找到4具遗体。这两名幸存者目前已被送往精神科接受治疗。两位组织者坚称聚会仅有8人参加。火灾原因仍在进一步调查中。</p>
 
     <div class="mystery">那位“第九个人”，究竟是谁？</div>
 
