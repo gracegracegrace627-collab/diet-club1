@@ -12,12 +12,35 @@
     color: #202122;
   }
 
+  /* 顶部标题栏带背景图 */
   header {
-    background: #3366cc;
+    position: relative;
+    background: url('qlbridge.png') no-repeat center center/cover;
     color: white;
-    padding: 14px 30px;
-    font-size: 22px;
+    padding: 80px 40px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+  }
+
+  header h1 {
+    position: relative;
+    z-index: 1;
+    font-size: 40px;
     font-weight: bold;
+    margin: 0;
+  }
+
+  header p {
+    position: relative;
+    z-index: 1;
+    font-size: 18px;
+    margin-top: 8px;
   }
 
   .layout {
@@ -61,22 +84,11 @@
     padding: 0 30px;
   }
 
-  h1 {
-    font-size: 30px;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-  }
-
   h2 {
     color: #3366cc;
     border-bottom: 1px solid #ccc;
     padding-bottom: 4px;
     margin-top: 40px;
-  }
-
-  h3 {
-    color: #444;
-    margin-top: 20px;
   }
 
   p {
@@ -130,6 +142,24 @@
     padding: 6px 12px;
   }
 
+  .photo {
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .photo img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .photo p {
+    text-indent: 0;
+    font-size: 13px;
+    color: #555;
+    margin-top: 6px;
+  }
+
   footer {
     text-align: center;
     color: #777;
@@ -138,16 +168,13 @@
     border-top: 1px solid #ddd;
     margin-top: 40px;
   }
-
-  img.map {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  }
 </style>
 </head>
 <body>
-  <header>虚拟百科 · 晴朗市</header>
+  <header>
+    <h1>晴朗市 Qinglang City</h1>
+    <p>阳光之都 · 健康之城</p>
+  </header>
 
   <div class="layout">
     <nav>
@@ -155,15 +182,14 @@
       <a href="#overview">一、总体概况</a>
       <a href="#geo">二、地理与气候</a>
       <a href="#zones">三、区域划分</a>
-      <a href="#landmark">四、地标与活动</a>
-      <a href="#identity">五、城市定位</a>
+      <a href="#culture">四、文化与建设</a>
+      <a href="#landmark">五、地标与活动</a>
+      <a href="#identity">六、城市定位</a>
     </nav>
 
     <main>
-      <h1>晴朗市</h1>
-
       <div class="infobox">
-        <h3>晴朗市 Qinglang City</h3>
+        <h3>晴朗市信息框</h3>
         <table>
           <tr><td><b>国家</b></td><td>华东沿海某省</td></tr>
           <tr><td><b>行政级别</b></td><td>副省级市</td></tr>
@@ -183,19 +209,12 @@
 
       <section id="geo">
         <h2>二、地理与气候</h2>
-        <h3>1. 地形地貌</h3>
-        <p>东部为沿海平原，多为填海与滨海沙地，沿岸分布港区、工业园和滨海旅游带；西部为丘陵地带，植被茂盛，是城市的天然生态屏障。著名景点“青青草原营地”与“青松岭国家森林公园”位于此地。</p>
-        <h3>2. 气候特征</h3>
-        <ul>
-          <li>年平均气温：17.2°C</li>
-          <li>最热月（7月）：28°C</li>
-          <li>最冷月（1月）：6°C</li>
-          <li>年降雨量：约1300毫米</li>
-          <li>年日照时数：约2100小时（为全省最高）</li>
-        </ul>
-        <p>晴朗市因此得名，意为“阳光普照、气候温和之地”。</p>
-        <h3>3. 自然生态</h3>
-        <p>西郊“青青草原”以草坡与溪流著名，东海岸“风港滩”以红树林保护带闻名。全市绿化覆盖率42%，为国家“花园城市”示范点。</p>
+        <div class="photo">
+          <img src="qqcypark.png" alt="晴朗市公园">
+          <p>▲ 晴朗市中心公园——市民休憩与活动的重要绿地。</p>
+        </div>
+        <p>晴朗市东部为沿海平原，多为填海与滨海沙地，沿岸分布港区、工业园和滨海旅游带；西部为丘陵地带，植被茂盛，是城市的天然生态屏障。著名景点“青青草原营地”与“青松岭国家森林公园”位于此地。</p>
+        <p>年平均气温17.2°C，年降雨量约1300毫米，日照时数2100小时，是全省最“晴朗”的城市。</p>
       </section>
 
       <section id="zones">
@@ -212,18 +231,28 @@
         </table>
       </section>
 
+      <section id="culture">
+        <h2>四、文化与建设</h2>
+        <div class="photo">
+          <img src="qlculture.png" alt="晴朗文化中心">
+          <p>▲ 晴朗文化中心广场，市民精神文明活动的重要地标。</p>
+        </div>
+        <p>晴朗市大力推动公共文化基础设施建设，形成“文化馆—展览馆—市民广场—博物馆”四位一体的文化格局。晴朗文化中心、青岚美术馆与阳光剧院均位于市中心文化轴线。</p>
+        <p>每年举办“晴朗文化节”“青岚书展”“城市艺术周”等活动，提升城市文化形象。</p>
+      </section>
+
       <section id="landmark">
-        <h2>四、城市地标与活动</h2>
-        <ul>
-          <li><b>晴朗市马拉松：</b>每年5月举行，路线环绕晴朗河与青岚湾。</li>
-          <li><b>轻体馆论坛节：</b>每年9月在松林区体育中心举办，聚集全国健身达人。</li>
-          <li><b>青岚灯海节：</b>冬季滨海灯光展，是城市代表节庆。</li>
-          <li><b>地标建筑：</b>晴朗塔、晴朗文化中心、青青草原纪念碑、青岚湾大桥。</li>
-        </ul>
+        <h2>五、地标与活动</h2>
+        <div class="photo">
+          <img src="qlmrathon.png" alt="晴朗马拉松">
+          <p>▲ 晴朗市马拉松比赛现场，城市年度体育盛会。</p>
+        </div>
+        <p>晴朗市马拉松是全国知名赛事，每年5月举行，路线环绕晴朗河与青岚湾。沿途风景秀丽，成为展示城市形象的重要窗口。</p>
+        <p>此外，青岚灯海节、轻体馆论坛节、滨海音乐周等活动让这座城市全年充满活力。</p>
       </section>
 
       <section id="identity">
-        <h2>五、城市形象定位</h2>
+        <h2>六、城市形象定位</h2>
         <p><b>城市口号：</b>阳光之都 · 健康之城</p>
         <p><b>城市性格：</b>开放、理性、温暖、略带神秘</p>
         <p><b>代表色：</b>晴空蓝（#3BA9FF）</p>
