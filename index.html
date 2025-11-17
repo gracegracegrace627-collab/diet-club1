@@ -7,65 +7,97 @@
 <style>
   body {
     font-family: "Noto Sans SC", "Segoe UI", sans-serif;
-    background: linear-gradient(to bottom right, #f0f9ff, #fffdf5);
+    background: #f0f2f5;
     margin: 0;
     color: #333;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 主体布局 */
+  .container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 1.5rem;
+  }
+
+  /* 左侧广告栏 */
+  .sidebar {
+    flex: 1;
+    max-width: 200px;
+    padding: 1rem;
+  }
+
+  .ad {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+  }
+
+  .ad img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* 中间内容区 */
+  .main {
+    flex: 2;
+    max-width: 700px;
   }
 
   header {
-    background: #5BC0EB;
-    color: white;
-    text-align: center;
-    padding: 1.5rem 1rem;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
 
-  header h1 {
+  header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #5BC0EB;
+  }
+
+  header div {
+    flex: 1;
+  }
+
+  header h2 {
     margin: 0;
-    font-size: 1.8rem;
   }
 
   header p {
     margin: 0.3rem 0 0;
-    font-size: 0.95rem;
-    opacity: 0.9;
-  }
-
-  .profile {
-    text-align: center;
-    margin-top: 1rem;
-  }
-
-  .profile img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 3px solid #5BC0EB;
-    object-fit: cover;
-  }
-
-  .profile h2 {
-    margin: 0.6rem 0 0.2rem;
-  }
-
-  .profile p {
     color: #777;
     font-size: 0.9rem;
   }
 
   .posts {
-    max-width: 650px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
   }
 
   .post {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    margin-bottom: 1.5rem;
+    border-radius: 10px;
     padding: 1rem 1.2rem;
-    animation: fadeIn 0.6s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    animation: fadeIn 0.5s ease;
   }
 
   @keyframes fadeIn {
@@ -74,15 +106,15 @@
   }
 
   .date {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #999;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   .post img {
     width: 100%;
-    border-radius: 12px;
-    margin-top: 0.8rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
     transition: 0.3s;
   }
 
@@ -91,7 +123,7 @@
   }
 
   .comments {
-    margin-top: 0.8rem;
+    margin-top: 0.6rem;
     border-top: 1px solid #eee;
     padding-top: 0.5rem;
   }
@@ -107,8 +139,8 @@
   }
 
   .comment.reply {
-    color: #555;
     margin-left: 1rem;
+    color: #444;
   }
 
   .comment.warning {
@@ -117,109 +149,162 @@
     padding: 0.3rem 0.5rem;
     border-radius: 4px;
     font-style: italic;
-    color: #444;
+  }
+
+  /* 右侧广告栏 */
+  .rightbar {
+    flex: 1;
+    max-width: 220px;
+    padding: 1rem;
+  }
+
+  .sponsor {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .sponsor img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
   }
 
   footer {
     text-align: center;
     color: #aaa;
-    padding: 1.5rem 0;
     font-size: 0.85rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>卜芝稻就是不知道</h1>
-  <p>@buzhidao_daily | “每天都要动起来！”</p>
-</header>
+<div class="container">
 
-<div class="profile">
-  <img src="selfie.png" alt="卜芝稻头像">
-  <h2>卜芝稻就是不知道</h2>
-  <p>晴朗市 · 健康生活爱好者</p>
+  <!-- 左侧广告栏 -->
+  <div class="sidebar">
+    <div class="ad">
+      <img src="ad_fitdrink.png" alt="广告">
+      <p>🌿 FitDrink 低糖运动饮品  
+      健身后的最佳补水伙伴！</p>
+    </div>
+    <div class="ad">
+      <img src="ad_sunnyshape.png" alt="晴朗轻体馆">
+      <p>加入晴朗轻体馆，做更轻盈的自己！</p>
+    </div>
+  </div>
+
+  <!-- 中间主体 -->
+  <div class="main">
+    <header>
+      <img src="selfie.png" alt="卜芝稻头像">
+      <div>
+        <h2>卜芝稻就是不知道</h2>
+        <p>@buzhidao_daily · 晴朗市</p>
+        <p>“每天都要动起来！”</p>
+      </div>
+    </header>
+
+    <section class="posts">
+
+      <div class="post">
+        <div class="date">5月22日</div>
+        <p>动起来~~每天都要动起来！💪</p>
+      </div>
+
+      <div class="post">
+        <div class="date">5月20日</div>
+        <p>晴 ☀️ 清晨力量训练+晚上瑜伽，今天一整天都感觉身体轻盈～</p>
+        <img src="bzdyoga.png" alt="瑜伽训练">
+      </div>
+
+      <div class="post">
+        <div class="date">5月15日</div>
+        <p>打卡 ✅ 今天做了全身力量训练~ 一边听歌一边流汗真幸福！🎧</p>
+        <img src="erji.png" alt="健身耳机">
+      </div>
+
+      <div class="post">
+        <div class="date">5月2日</div>
+        <p>日常放松 🌿 今天没有锻炼！但喝了很多水，看了一本新书，觉得精神状态更好了。</p>
+        <img src="yibenshu.png" alt="书本">
+      </div>
+
+      <div class="post">
+        <div class="date">4月28日</div>
+        <p>最近迷上了燕麦配牛奶，健康又好吃！感觉我可以做一个健康餐分享专题啦！🥣</p>
+        <img src="healthylife.png" alt="健康餐">
+      </div>
+
+      <div class="post">
+        <div class="date">4月16日</div>
+        <p>马拉松！！！我们来啦啦啦~~🔥</p>
+        <img src="buzhidaomarathon.png" alt="马拉松卜芝稻">
+        <img src="buqingchumarathon.png" alt="马拉松卜倾楚">
+        <div class="comments">
+          <div class="comment"><span class="name">运动网友000：</span>加油，卜家姐妹花！💪</div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="date">4月12日</div>
+        <p>马拉松倒计时，最近感觉超棒！~~🏃‍♀️</p>
+      </div>
+
+      <div class="post">
+        <div class="date">4月9日</div>
+        <p>今天午餐是牛油果鸡胸沙拉，清爽又饱腹！健康的生活，其实可以很简单~🥗</p>
+        <img src="chickensalad.png" alt="鸡胸沙拉">
+      </div>
+
+      <div class="post">
+        <div class="date">3月29日</div>
+        <p>今天早上做了轻度拉伸和30分钟核心训练，感觉整个人都清醒了好多~🌤️</p>
+      </div>
+
+      <div class="post">
+        <div class="date">3月21日</div>
+        <p>放松时刻，偶尔一天放松一下也很开心！🌼</p>
+      </div>
+
+      <div class="post">
+        <div class="date">3月16日</div>
+        <p>越来越规律的作息比什么都重要。偶尔累一点也没关系，慢慢走就好~💛</p>
+        <img src="selfie.png" alt="自拍">
+        <div class="comments">
+          <div class="comment"><span class="name">unknown000：</span>你从晴朗轻体活动中全身而退了？</div>
+          <div class="comment reply"><span class="name">卜芝稻就是不知道：</span>什么活动？那是什么？🤔</div>
+          <div class="comment warning"><span class="name">BALABALABu~倾楚：</span>妹妹你拉黑他。他胡说八道，不要理他！🚫</div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="date">3月5日</div>
+        <p>今天又去跑步啦~ 6公里打卡成功！最近状态越来越好，准备报名下个月的晴朗马拉松~🏃‍♀️</p>
+        <img src="sportspark.png" alt="晴朗运动公园">
+      </div>
+
+    </section>
+  </div>
+
+  <!-- 右侧广告栏 -->
+  <div class="rightbar">
+    <div class="sponsor">
+      <img src="ad_runshoes.png" alt="跑鞋广告">
+      <p>🏃‍♀️ 新品晴跑Pro跑鞋 —— 让每一步更轻盈！</p>
+    </div>
+    <div class="sponsor">
+      <img src="ad_gym.png" alt="健身房广告">
+      <p>💪 FitOne 健身年卡限时优惠中！</p>
+    </div>
+  </div>
+
 </div>
-
-<section class="posts">
-
-  <div class="post">
-    <div class="date">5月22日</div>
-    <p>动起来~~每天都要动起来！</p>
-  </div>
-
-  <div class="post">
-    <div class="date">5月20日</div>
-    <p>晴 ☀️ 清晨力量训练+晚上瑜伽，今天一整天都感觉身体轻盈～</p>
-    <img src="bzdyoga.png" alt="瑜伽训练">
-  </div>
-
-  <div class="post">
-    <div class="date">5月15日</div>
-    <p>打卡 ✅ 今天做了全身力量训练~ 一边听歌一边流汗真幸福！🎧</p>
-    <img src="erji.png" alt="健身耳机">
-  </div>
-
-  <div class="post">
-    <div class="date">5月2日</div>
-    <p>日常放松 🌿 今天没有锻炼！但喝了很多水，看了一本新书，觉得精神状态更好了。</p>
-    <img src="yibenshu.png" alt="书本">
-  </div>
-
-  <div class="post">
-    <div class="date">4月28日</div>
-    <p>最近迷上了燕麦配牛奶，健康又好吃！感觉我可以做一个健康餐分享专题啦！🥣</p>
-  </div>
-
-  <div class="post">
-    <div class="date">4月16日</div>
-    <p>马拉松！！！我们来啦啦啦~~🔥</p>
-    <img src="buzhidaomarathon.png" alt="马拉松卜芝稻">
-    <img src="buqingchumarathon.png" alt="马拉松卜倾楚">
-    <div class="comments">
-      <div class="comment"><span class="name">运动网友000：</span>加油，卜家姐妹花！💪</div>
-    </div>
-  </div>
-
-  <div class="post">
-    <div class="date">4月12日</div>
-    <p>马拉松倒计时，最近感觉超棒！~~🏃‍♀️</p>
-  </div>
-
-  <div class="post">
-    <div class="date">4月9日</div>
-    <p>今天午餐是牛油果鸡胸沙拉，清爽又饱腹！健康的生活，其实可以很简单~🥗</p>
-    <img src="chickensalad.png" alt="鸡胸沙拉">
-  </div>
-
-  <div class="post">
-    <div class="date">3月29日</div>
-    <p>今天早上做了轻度拉伸和30分钟核心训练，感觉整个人都清醒了好多~🌤️</p>
-  </div>
-
-  <div class="post">
-    <div class="date">3月21日</div>
-    <p>放松时刻，偶尔一天放松一下也很开心！🌼</p>
-  </div>
-
-  <div class="post">
-    <div class="date">3月16日</div>
-    <p>越来越规律的作息比什么都重要。偶尔累一点也没关系，慢慢走就好~💛</p>
-    <img src="selfie.png" alt="自拍">
-    <div class="comments">
-      <div class="comment"><span class="name">unknown000：</span>你从晴朗轻体活动中全身而退了？</div>
-      <div class="comment reply"><span class="name">卜芝稻就是不知道：</span>什么活动？那是什么？🤔</div>
-      <div class="comment warning"><span class="name">BALABALABu~倾楚：</span>妹妹你拉黑他。他胡说八道，不要理他！🚫</div>
-    </div>
-  </div>
-
-  <div class="post">
-    <div class="date">3月5日</div>
-    <p>今天又去跑步啦~ 6公里打卡成功！最近状态越来越好，准备报名下个月的晴朗马拉松~🏃‍♀️</p>
-    <img src="sportspark.png" alt="晴朗运动公园">
-  </div>
-
-</section>
 
 <footer>© 2025 晴朗社交 · 卜芝稻个人主页 | 虚构网站示例</footer>
 
